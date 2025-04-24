@@ -1,0 +1,74 @@
+{
+  "opensource": "Open Source",
+  "clear_cache": "Clear Cache",
+  "clear_cache_done": "Cache has been cleared",
+  "logout": "Logout",
+  "close": "Close",
+  "done": "Done",
+  "cancel": "Cancel",
+  "a moment ago": "a moment ago",
+  "daysLeft": "{daysCount} days left",
+  "daysPassed": "{daysCount} days passed",
+
+  "loginScreenText1": "Enter your phone number",
+  "loginScreenText2": "THECommu will need to verify your account",
+
+  "next": "Next",
+  "exit": "Exit",
+
+  "optScreenText1": "Verifying your number",
+  "optScreenText2": "We have sent an SMS with a code",
+
+  "userInformationScreenText1": "Profile Info",
+  "userInformationScreenText2": "Please provide your nickname and an optional profile photo",
+  "userInformationScreenText3": "Please enter a nickname",
+
+  "landingScreenText1": "Welcome to THECommu",
+  "landingScreenText2": "Read our Privacy Policy. Tap \"Agree and continue\" to accept the Terms of Service",
+  "landingScreenText3": "Agree and Continue",
+
+  "mainLayoutScreenText1": "THECommu",
+  "mainLayoutScreenText2": "Friends",
+  "mainLayoutScreenText3": "Chats",
+  "mainLayoutScreenText4": "Groups",
+  "mainLayoutScreenText5": "Settings",
+  "mainLayoutScreenText6": "Logout",
+  "mainLayoutScreenText7": "Theme",
+
+  "createGroupScreenText1": "Create group",
+  "createGroupScreenText2": "Enter group name",
+  "createGroupScreenText3": "Select Friends",
+
+  "groupScreenText1": "People",
+
+  "receiver": "Me",
+  "replyTo": "Reply to {userName}",
+  "image": "Image",
+  "imageChat": "Sent a Image...",
+  "video": "Video",
+  "videoChat": "Sent a Video...",
+
+  "chattingInputFieldWidgetText1": "Enter a chat...",
+  "chattingInputFieldWidgetText2": "Write a reply...",
+
+  "videoDownloadWidgetText1": "The file has been saved",
+  "language": "Language",
+  "unknown": "Unknown",
+
+  "community": "Commu",
+  "search": "Search",
+  "upload": "Upload",
+  "profile": "Profile",
+
+  "user_search": "User Search",
+
+  "title": "Title",
+  "content": "Content",
+  "uploadFeedNotification": "You have registered your feed!",
+
+  "feed_count": "Feeds",
+  "follower": "Follower",
+  "following": "Following",
+  "follow": "Follow",
+  "unfollow": "Unfollow"
+}

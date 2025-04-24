@@ -1,0 +1,119 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+lib/firebase_options.dart
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+# Flutter specific - Flutter 프로젝트 자체에서 생성되는 파일들
+build/
+# pubspec.lock 파일은 팀원 간의 의존성 버전 일치를 위해 보통 포함합니다. 제외하지 않는 것을 권장합니다.
+# web 빌드 결과물은 build/web/ 에 생성되므로 위의 build/ 에 포함됩니다.
+
+# IDE specific - 개발 환경(IDE) 설정 파일
+.vscode/
+
+# Android specific - Android 플랫폼 관련 파일
+android/app/google-services.json
+android/key.properties
+android/*.jks
+android/*.keystore
+android/local.properties
+android/.gradle/
+android/build/
+android/app/build/
+# android/gradlew
+# android/gradlew.bat
+# android/gradle/wrapper/gradle-wrapper.jar
+# 주석 처리된 Gradle 관련 파일들은 팀 정책에 따라 포함 여부를 결정할 수 있습니다.
+# 일반적으로는 포함하여 모든 환경에서 동일한 Gradle 버전 사용을 강제합니다.
+
+# iOS specific - iOS 플랫폼 관련 파일
+ios/Runner/GoogleService-Info.plist
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/GeneratedPluginRegistrant.*
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/
+ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+ios/Runner.xcworkspace/xcshareddata/
+ios/Runner.xcworkspace/xcuserdata/
+# ios/Podfile.lock 파일은 팀원 간의 iOS 의존성 버전 일치를 위해 보통 포함합니다. 제외하지 않는 것을 권장합니다.
+
+# macOS specific - macOS 플랫폼 관련 파일
+macos/Runner/GoogleService-Info.plist
+macos/Pods/
+macos/.symlinks/
+macos/Flutter/ephemeral/
+# macos/Flutter/*.xcframework   # Flutter 빌드 결과물 (프레임워크 이름은 다를 수 있음)
+macos/Flutter/GeneratedPluginRegistrant.*
+macos/Runner/GeneratedPluginRegistrant.*
+macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/
+macos/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+macos/Runner.xcworkspace/xcshareddata/
+macos/Runner.xcworkspace/xcuserdata/
+# macos/Podfile.lock 파일은 팀원 간의 macOS 의존성 버전 일치를 위해 보통 포함합니다. 제외하지 않는 것을 권장합니다.
+
+# Firebase specific (CLI) - Firebase CLI 관련 파일
+# .firebaserc               # Firebase 프로젝트 별칭 등 (포함해도 무방하나, 민감 정보가 없다면 제외 가능)
+# firebase.json             # Firebase 호스팅, Functions 등 배포 설정 (보통 포함)
+
+# Sensitive files (Add any custom files containing secrets) - 기타 민감 정보 파일
+# .env                      # 환경 변수 파일 예시
+# secrets.json              # 비밀 정보 JSON 파일 예시
+# config/prod.json          # 환경별 설정 파일 예시
+firebase.json
+firestore.rules
+storage.rules

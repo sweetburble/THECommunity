@@ -1,0 +1,174 @@
+name: THECommu
+description: A new Flutter project.
+# 다음 줄은 flutter pub publish를 사용하여 pub.dev에 실수로 패키지가 게시되는 것을 방지합니다.
+# 이는 개인 패키지의 경우 선호됩니다.
+publish_to: 'none' # pub.dev에 게시하려면 이 행을 제거하십시오
+
+# 다음은 응용 프로그램의 버전 및 빌드 번호를 정의합니다.
+# 버전 번호는 1.2.43처럼 점으로 구분된 세 개의 숫자와 +로 구분된 선택적 빌드 번호이다.
+# 버전과 빌더 번호는 각각 --build-name 및 --build-number를 지정함으로써 플러터 빌드에서 모두 재정의될 수 있다.
+# 안드로이드에서 빌드 이름은 versionName으로 사용되고 빌드 번호는 versionCode로 사용된다.
+# Android 버전에 대한 자세한 내용은 https://developer.android.com/studio/publish/versioning 에서 확인하십시오
+# iOS에서 빌드 이름은 CFBundleShortVersionString으로 사용되고 빌드 번호는 CFBundleVersion으로 사용된다.
+# iOS 버전에 대한 자세한 내용은 https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html 에서 확인하십시오
+# 윈도우에서 빌드 이름은 제품과 파일 버전의 주, 부, 패치 부분으로 사용되며 빌드 번호는 빌드 접미사로 사용된다.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+# 종속성은 패키지가 작동하기 위해 필요한 다른 패키지를 지정합니다.
+# 패키지 종속성을 최신 버전으로 자동 업그레이드하려면 flutter pub upgrade --major-version을 실행하는 것을 고려하십시오.
+# 또는 아래 버전 번호를 pub.dev에서 사용할 수 있는 최신 버전으로 변경하여 종속성을 수동으로 업데이트할 수 있습니다.
+# 최신 버전을 사용할 수 있는 종속성을 확인하려면 flutter pub oldered를 실행하십시오.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # splash creator
+  flutter_native_splash: ^2.4.6
+
+  # dart
+  meta: ^1.16.0
+  quiver: ^3.2.2
+  equatable: ^2.0.7
+
+  # util
+  velocity_x: ^4.2.1 # timeago랑 intl 버전 충돌
+  logger: ^2.5.0
+
+  # data
+  shared_preferences: ^2.5.3
+
+  # architecture
+  event_bus: ^2.0.1
+  get: ^4.7.2
+
+  # ui - resource
+  icons_plus: ^5.0.0 # 다양한 아이콘 패키지 포함 -> https://pub.dev/packages/icons_plus#1-antdesign
+  google_fonts: ^6.2.1
+  easy_localization: ^3.0.7+1
+  flutter_cache_manager: ^3.4.1
+
+  # ui - widget
+  nav: ^1.4.3
+  simple_shadow: ^0.3.1
+  after_layout: ^1.2.0
+  flutter_svg: ^2.1.0
+  cached_network_image: ^3.4.1
+
+  # ui - util
+
+  # 접근 권한
+  permission_handler: ^12.0.0+1
+  flutter_contacts: ^1.1.9+2
+
+  # network
+  dio: ^5.8.0+1
+  retrofit: ^4.4.2
+
+  # !!! 여기서부터는 프로젝트 마다 추가
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+  validators: ^3.0.0
+  uuid: ^4.5.1
+
+  # 이미지
+  image_picker: ^1.1.2
+  extended_image: ^10.0.1
+  smooth_page_indicator: ^1.2.1
+  country_picker: ^2.0.27 # 전세계 나라를 선택하는 위젯 제공
+  emoji_picker_flutter: ^4.3.0  # 이모지 스크린을 제공
+  mime: ^2.0.0 # MIME 타입 정의를 사용하고, MIME 멀티파트 미디어 유형의 스트림을 처리하기 위한 패키지
+  # MIME : Multipurpose Internet Mail Extensions -> 파일변환 후, 웹을 통해서 여러 형태의 파일을 전달
+
+  # Firebase
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.2
+  firebase_storage: ^12.4.5
+  cloud_firestore: ^5.6.6
+  firebase_remote_config: ^5.4.3
+
+  # 상태 관리
+  state_notifier: ^1.0.0
+  flutter_state_notifier: ^1.0.0
+
+  # 리버팟
+  flutter_riverpod: ^2.6.1
+  hooks_riverpod: ^2.6.1
+  flutter_hooks: ^0.21.2
+
+  # UI
+  timeago: ^3.7.0
+  go_router: ^15.1.1
+  flutter_otp_text_field: ^1.5.1+1
+  rive: ^0.13.20
+  loader_overlay: ^5.0.0 # 로딩 화면 구현을 돕는 패키지
+  flutter_slidable: ^4.0.0 # 슬라이딩 기능을 구현한 패키지
+  fluttertoast: ^8.2.12 # 토스트 기능을 추가하는 패키지
+  flutter_local_notifications: ^19.1.0 # 앱 푸시 메시지를 구현하는 패키지
+
+  # 통신
+  http: ^1.3.0
+  flutter_file_downloader: ^2.1.0 # Android만 해당된다 + 파일을 쉽게 다운받을 수 있도록 돕는다
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # 아래의 "flutter_lints" 패키지에는 우수한 코딩 관행을 장려하기 위한 권장 린트 세트가 포함되어 있습니다.
+  # 패키지에서 제공하는 린트 세트는 패키지의 루트에 있는 'analysis_options.yaml' 파일에서 활성화됩니다.
+  # 특정 린트 규칙을 비활성화하고 추가 규칙을 활성화하는 방법에 대한 자세한 내용은 해당 파일을 참조하십시오.
+  freezed: ^3.0.6
+  flutter_lints: ^5.0.0
+  retrofit_generator: ^9.1.9
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.5
+  mock_web_server: ^5.0.0-nullsafety.1
+  flutter_oss_licenses: ^3.0.4
+  change_app_package_name: ^1.5.0
+
+
+
+# 이 파일의 일반적인 다트 부분에 대한 정보는 https://dart.dev/tools/pub/pubspec 페이지를 참조하십시오
+
+# 다음 섹션은 Flutter 패키지에 특화되어 있습니다.
+flutter:
+
+  # 다음 행은 material 아이콘 글꼴이 응용 프로그램에 포함되어 있으므로
+  # material 아이콘 클래스에서 아이콘을 사용할 수 있습니다.
+  uses-material-design: true
+  assets:
+    - assets/json/
+    - assets/image/
+    - assets/image/icon/
+    - assets/image/flag/
+    - assets/image/darkmode/
+    - assets/translations/
+    - assets/
+    - assets/rive/
+
+  # 이미지 asset은 하나 이상의 해상도별 "변종"을 지칭할 수 있다,
+  # https://flutter.dev/assets-and-images/ #해상도 인식
+
+  # 패키지 종속성에서 자산을 추가하는 것에 대한 자세한 내용은,
+  # https://flutter.dev/assets-and-images/ # from packages
+
+  # 응용프로그램에 사용자 정의 글꼴을 추가하려면 이 "플랫터" 섹션에 글꼴 섹션을 추가하십시오.
+  # 이 목록의 각 항목에는 글꼴 패밀리 이름이 포함된 "패밀리" 키와,
+  # 글꼴에 대한 asset 및 기타 설명자를 제공하는 목록이 포함된 "폰트" 키가 있어야 한다.
+  # 예시:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # 패키지 종속성의 font에 대한 자세한 내용은
+  # https://flutter.dev/custom-fonts/#from-packages 를 참조하세요

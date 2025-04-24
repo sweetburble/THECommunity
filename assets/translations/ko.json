@@ -1,0 +1,74 @@
+{
+  "opensource": "오픈소스",
+  "clear_cache": "캐시 지우기",
+  "clear_cache_done": "캐시가 삭제되었습니다",
+  "logout": "로그아웃",
+  "close": "닫기",
+  "done": "완료",
+  "cancel": "취소",
+  "a moment ago": "방금 전",
+  "daysLeft": "{daysCount}일 남음",
+  "daysPassed": "{daysCount}일 지남",
+
+  "loginScreenText1": "전화번호 입력",
+  "loginScreenText2": "THECommu에서 당신의 계정을 인증합니다",
+
+  "next": "다음",
+  "exit": "나가기",
+
+  "optScreenText1": "인증 번호 입력",
+  "optScreenText2": "전송받은 인증 번호를 입력해주세요",
+
+  "userInformationScreenText1": "프로필 정보",
+  "userInformationScreenText2": "나만의 닉네임과 프로필 사진을 정하세요",
+  "userInformationScreenText3": "닉네임을 입력하세요",
+
+  "landingScreenText1": "THECommu에 오신걸 환영합니다",
+  "landingScreenText2": "정책 내용을 확인 확인해주세요. \"승인 후 계속\" 을 터치 후, 계속해주세요",
+  "landingScreenText3": "승인 및 계속하기",
+
+  "mainLayoutScreenText1": "THECommu",
+  "mainLayoutScreenText2": "친구",
+  "mainLayoutScreenText3": "채팅",
+  "mainLayoutScreenText4": "그룹",
+  "mainLayoutScreenText5": "설정",
+  "mainLayoutScreenText6": "로그아웃",
+  "mainLayoutScreenText7": "테마",
+
+  "createGroupScreenText1": "그룹 생성",
+  "createGroupScreenText2": "그룹 이름 입력",
+  "createGroupScreenText3": "친구 선택",
+
+  "groupScreenText1": "명",
+
+  "receiver": "나",
+  "replyTo": "{userName}에게 답장",
+  "image": "사진",
+  "imageChat": "사진을 보냈습니다...",
+  "video": "동영상",
+  "videoChat": "동영상을 보냈습니다...",
+
+  "chattingInputFieldWidgetText1": "채팅 입력...",
+  "chattingInputFieldWidgetText2": "답장 입력...",
+
+  "videoDownloadWidgetText1": "파일이 저장됐습니다",
+  "language": "언어",
+  "unknown": "알 수 없음",
+
+  "community": "커뮤",
+  "search": "검색",
+  "upload": "업로드",
+  "profile": "프로필",
+
+  "user_search": "유저 검색",
+
+  "title": "제목",
+  "content": "내용",
+  "uploadFeedNotification": "피드를 등록했습니다!",
+
+  "feed_count": "피드",
+  "follower": "팔로워",
+  "following": "팔로잉",
+  "follow": "팔로우",
+  "unfollow": "언팔로우"
+}
