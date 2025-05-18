@@ -1,0 +1,2 @@
+C:/Users/Bandi/Desktop/Fork/THECommunity/android/app/.cxx/Debug/1g352542/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Bandi/Desktop/Fork/THECommunity/android/app/.cxx/Debug/1g352542/arm64-v8a/CMakeFiles/rebuild_cache.dir

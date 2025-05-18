@@ -48,7 +48,9 @@ void main() async {
   // 앱 내 기본값 설정 (네트워크 연결 실패 또는 첫 실행 시 사용될 값)
   // 중요: 여기에 실제 API Key를 넣으면 안 된다! 빈 문자열이나 플레이스홀더 사용
   await remoteConfig.setDefaults(const {
-    "openai_api_key": "", // Firebase 콘솔의 매개변수 키와 동일하게
+    // Firebase 콘솔의 매개변수 키와 동일하게
+    "openai_api_key": "",
+    "gemini_api_key": "",
   });
 
   // 원격 구성 값 가져오기 및 활성화 (앱 시작 시 시도)
