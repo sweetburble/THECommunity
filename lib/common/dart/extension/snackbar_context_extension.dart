@@ -77,13 +77,14 @@ class _SnackbarFactory {
                         color: Colors.white,
                         fontSize: 14,
                         fontStyle: FontStyle.normal,
-                      )),
+                      ),),
                 ),
                 if (extraButton != null) extraButton,
               ],
             ),
           ),
-        ));
+        ),
+    );
   }
 
   static SnackBar createErrorSnackBar(

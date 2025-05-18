@@ -5,11 +5,13 @@ import 'package:THECommu/common/util/logger.dart';
 import 'package:THECommu/data/models/feed_model.dart';
 import 'package:THECommu/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:THECommu/ai/gpt_repository.dart';
+import 'package:THECommu/ai/gemini_repository.dart';
 
 /**
  * 이미지 파일은 가장 먼저 Firebase Storage에 저장한 다음, 그곳에서 주는 경로를 FireStore에 저장하는 방식이다
@@ -142,14 +144,24 @@ class FeedRepository {
     required String content, // 피드 내용
     required String myUid, // 유저 아이디
   }) async {
+    // --- 사용자 인증 상태 확인 로직 추가 ---
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      logger.w("경고: 사용자가 로그인되어 있지 않습니다. 피드 업로드를 진행할 수 없습니다."); // logger가 있다면 사용
+      throw CustomException(code: "UNAUTHENTICATED", message: "피드를 업로드하려면 로그인이 필요합니다.");
+    } else {
+      logger.d("현재 로그인된 사용자의 uid : ${currentUser.uid}, 전달받은 uid: $myUid");
+    }
+
     List<String> imageUrls = [];
 
-    final openaiApiKey = remoteConfig.getString('openai_api_key'); // Firebase 콘솔에 설정한 키
-    if (openaiApiKey.isEmpty) {
+    // final openaiApiKey = remoteConfig.getString('openai_api_key'); // Firebase 콘솔에 설정한 키
+    final geminiApiKey = remoteConfig.getString('gemini_api_key'); // Firebase 콘솔에 설정한 키
+
+    if (geminiApiKey.isEmpty) {
       // API 키를 가져오지 못한 경우의 처리
       logger.w("경고: Remote Config에서 API Key를 가져오지 못했습니다.");
-      // 기본값이나 빈 키로 생성하거나, 오류를 발생시킬 수 있습니다.
-      // return GPTRepository(apiKey: ""); // 빈 키로 생성 (주의: API 호출 실패함)
       throw Exception("Remote Config에서 API Key를 가져올 수 없습니다.");
     }
 
@@ -182,9 +194,14 @@ class FeedRepository {
       // userDocRef에서 userSnapshot을 받고, map -> UserModel로 변환해서 저장한다
       UserModel userModel = UserModel.fromMap(userSnapshot.data()!);
 
-      GPTRepository gptRepository = GPTRepository(apiKey: openaiApiKey);
+      // GPTRepository gptRepository = GPTRepository(apiKey: openaiApiKey);
+      GeminiRepository geminiRepository = GeminiRepository(apiKey: geminiApiKey);
+
       String summary = "";
-      await gptRepository.requestSummary(content.trim()).then((value) {
+      // await gptRepository.requestSummary(content.trim()).then((value) {
+      //   summary = value;
+      // });
+      await geminiRepository.requestSummary(content.trim()).then((value) {
         summary = value;
       });
 
