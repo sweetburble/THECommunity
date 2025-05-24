@@ -34,7 +34,7 @@ dependencies:
   equatable: ^2.0.7
 
   # util
-  velocity_x: ^4.2.1 # flutter SDK의 flutter_localizations랑 intl 버전 충돌
+  velocity_x: ^4.3.1
   logger: ^2.5.0
 
   # data
@@ -83,11 +83,11 @@ dependencies:
   # MIME : Multipurpose Internet Mail Extensions -> 파일변환 후, 웹을 통해서 여러 형태의 파일을 전달
 
   # Firebase
-  firebase_core: ^3.13.0
-  firebase_auth: ^5.5.3
-  firebase_storage: ^12.4.5
-  cloud_firestore: ^5.6.7
-  firebase_remote_config: ^5.4.3
+  firebase_core: ^3.13.1
+  firebase_auth: ^5.5.4
+  firebase_storage: ^12.4.6
+  cloud_firestore: ^5.6.8
+  firebase_remote_config: ^5.4.4
 
   # 상태 관리
   state_notifier: ^1.0.0
@@ -115,10 +115,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^1.0.0 # mockito 대신 사용 (null-safety 및 간결한 API 지원)
-  firebase_auth_mocks: ^0.13.0
-  fake_cloud_firestore: ^2.5.2
-  firebase_storage_mocks: ^0.6.1
+
+  mocktail: ^1.0.4 # mockito 대신 사용 (null-safety 및 간결한 API 지원)
+  firebase_auth_mocks: ^0.14.1
+  fake_cloud_firestore: ^3.1.0
+  firebase_storage_mocks: ^0.7.0
 
   # 아래의 "flutter_lints" 패키지에는 우수한 코딩 관행을 장려하기 위한 권장 린트 세트가 포함되어 있습니다.
   # 패키지에서 제공하는 린트 세트는 패키지의 루트에 있는 'analysis_options.yaml' 파일에서 활성화됩니다.

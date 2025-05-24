@@ -1,6 +1,5 @@
-import 'package:THECommu/data_model/user_model.dart';
+import 'package:THECommu/data/models/user_model.dart';
 import 'package:THECommu/repository/search_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -55,10 +54,14 @@ void main() {
     searchRepository = SearchRepository(firebaseFirestore: fakeFirestore);
 
     // Pre-populate Firestore with test users
-    await createTestUserInFirestore(firestore: fakeFirestore, uid: user1Uid, nickname: user1Nickname);
-    await createTestUserInFirestore(firestore: fakeFirestore, uid: user2Uid, nickname: user2Nickname);
-    await createTestUserInFirestore(firestore: fakeFirestore, uid: user3Uid, nickname: user3Nickname);
-    await createTestUserInFirestore(firestore: fakeFirestore, uid: user4Uid, nickname: user4Nickname);
+    await createTestUserInFirestore(
+        firestore: fakeFirestore, uid: user1Uid, nickname: user1Nickname);
+    await createTestUserInFirestore(
+        firestore: fakeFirestore, uid: user2Uid, nickname: user2Nickname);
+    await createTestUserInFirestore(
+        firestore: fakeFirestore, uid: user3Uid, nickname: user3Nickname);
+    await createTestUserInFirestore(
+        firestore: fakeFirestore, uid: user4Uid, nickname: user4Nickname);
   });
 
   group('searchUser method', () {
@@ -67,19 +70,23 @@ void main() {
       // Firestore is set up in `setUp`
 
       // --- ACT ---
-      final List<UserModel> results = await searchRepository.searchUser(keyword: "app");
+      final List<UserModel> results =
+          await searchRepository.searchUser(keyword: "app");
 
       // --- ASSERT ---
-      expect(results.length, 2, reason: "Should find 'applepie' and 'applejuice'");
-      
+      expect(results.length, 2,
+          reason: "Should find 'applepie' and 'applejuice'");
+
       // Verify the users found (order might vary depending on Firestore's internal indexing with FakeFirebaseFirestore)
       final nicknamesFound = results.map((user) => user.nickname).toList();
       expect(nicknamesFound, containsAll([user1Nickname, user2Nickname]));
 
       // Verify UserModel population for one of the users
-      final applePieUser = results.firstWhere((user) => user.nickname == user1Nickname);
+      final applePieUser =
+          results.firstWhere((user) => user.nickname == user1Nickname);
       expect(applePieUser.uid, user1Uid);
-      expect(applePieUser.email, '$user1Uid@example.com'); // Default email from helper
+      expect(applePieUser.email,
+          '$user1Uid@example.com'); // Default email from helper
     });
 
     test('Test Case 2: Keyword matches a single user', () async {
@@ -87,7 +94,8 @@ void main() {
       // Firestore is set up in `setUp`
 
       // --- ACT ---
-      final List<UserModel> results = await searchRepository.searchUser(keyword: "banana");
+      final List<UserModel> results =
+          await searchRepository.searchUser(keyword: "banana");
 
       // --- ASSERT ---
       expect(results.length, 1, reason: "Should only find 'banana'");
@@ -100,7 +108,8 @@ void main() {
       // Firestore is set up in `setUp`
 
       // --- ACT ---
-      final List<UserModel> results = await searchRepository.searchUser(keyword: "xyz");
+      final List<UserModel> results =
+          await searchRepository.searchUser(keyword: "xyz");
 
       // --- ASSERT ---
       expect(results.isEmpty, isTrue, reason: "Should find no users for 'xyz'");
@@ -111,14 +120,17 @@ void main() {
       // Firestore is set up in `setUp` with lowercase nicknames
 
       // --- ACT ---
-      final List<UserModel> results = await searchRepository.searchUser(keyword: "Apple");
+      final List<UserModel> results =
+          await searchRepository.searchUser(keyword: "Apple");
 
       // --- ASSERT ---
       // Firestore's string range queries are case-sensitive.
       // 'Apple' is between 'Apolda' and 'Applegate', but not 'apple...'.
       // The range query `isGreaterThanOrEqualTo: "Apple"` and `isLessThanOrEqualTo: "Apple\uf7ff"`
       // will not match lowercase "applepie" or "applejuice".
-      expect(results.isEmpty, isTrue, reason: "Search should be case-sensitive; 'Apple' should not match 'apple...'");
+      expect(results.isEmpty, isTrue,
+          reason:
+              "Search should be case-sensitive; 'Apple' should not match 'apple...'");
     });
 
     test('Test Case 5: Keyword is a full match to a nickname', () async {
@@ -126,7 +138,8 @@ void main() {
       // Firestore is set up in `setUp`
 
       // --- ACT ---
-      final List<UserModel> results = await searchRepository.searchUser(keyword: "applepie");
+      final List<UserModel> results =
+          await searchRepository.searchUser(keyword: "applepie");
 
       // --- ASSERT ---
       expect(results.length, 1, reason: "Should find 'applepie' exactly");

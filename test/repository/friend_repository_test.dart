@@ -1,6 +1,5 @@
-import 'package:THECommu/data_model/user_model.dart';
+import 'package:THECommu/data/models/user_model.dart';
 import 'package:THECommu/repository/friend_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,7 +16,6 @@ Future<void> createTestUserInFirestore({
   int feedCount = 0,
   List<String> feedList = const [],
   List<String> feedLikeList = const [],
-
 }) async {
   // Convert UIDs to DocumentReferences for Firestore storage if your model expects that for following/followers
   // However, the prompt implies UIDs are stored: "The lists in Firestore usually store UIDs."
@@ -43,7 +41,6 @@ Future<void> createTestUserInFirestore({
   });
 }
 
-
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
   late MockFirebaseAuth mockAuth;
@@ -51,11 +48,12 @@ void main() {
 
   const String currentUserUid = 'currentUserUid';
   const String friend1Uid = 'friend1Uid'; // Mutual friend
-  const String friend2Uid = 'friend2Uid'; // Follows current user, not followed back by current user
-  const String friend3Uid = 'friend3Uid'; // Followed by current user, doesn't follow back
+  const String friend2Uid =
+      'friend2Uid'; // Follows current user, not followed back by current user
+  const String friend3Uid =
+      'friend3Uid'; // Followed by current user, doesn't follow back
   const String otherUser1Uid = 'otherUser1';
   const String otherUser2Uid = 'otherUser2';
-
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
@@ -64,7 +62,7 @@ void main() {
     mockAuth = MockFirebaseAuth(mockUser: mockUser, signedIn: true);
     friendRepository = FriendRepository(
       firebaseAuth: mockAuth,
-      firebaseFirestore: fakeFirestore,
+      fireStore: fakeFirestore,
     );
   });
 
@@ -85,7 +83,9 @@ void main() {
         uid: friend1Uid,
         nickname: 'FriendOne',
         following: [currentUserUid], // friend1 follows currentUserUid back
-        followers: [currentUserUid], // friend1 is followed by currentUserUid back
+        followers: [
+          currentUserUid
+        ], // friend1 is followed by currentUserUid back
       );
       await createTestUserInFirestore(
         firestore: fakeFirestore,
@@ -99,19 +99,26 @@ void main() {
         uid: friend3Uid,
         nickname: 'FriendThree',
         following: [], // friend3 follows others, but not necessarily currentUserUid
-        followers: [currentUserUid], // friend3 is followed by currentUserUid, but does not follow back
+        followers: [
+          currentUserUid
+        ], // friend3 is followed by currentUserUid, but does not follow back
       );
-       // Add one more user to make sure only mutual ones are picked
-      await createTestUserInFirestore(firestore: fakeFirestore, uid: 'randomUser', followers: ['anotherRandom']);
-
+      // Add one more user to make sure only mutual ones are picked
+      await createTestUserInFirestore(
+          firestore: fakeFirestore,
+          uid: 'randomUser',
+          followers: ['anotherRandom']);
 
       // --- ACT ---
       final List<UserModel> friendList = await friendRepository.getFriendList();
 
       // --- ASSERT ---
-      expect(friendList.length, 1, reason: "Should only contain mutual friend (friend1Uid)");
-      expect(friendList.first.uid, friend1Uid, reason: "The mutual friend should be friend1Uid");
-      expect(friendList.first.nickname, 'FriendOne', reason: "Friend1's nickname should be correctly populated");
+      expect(friendList.length, 1,
+          reason: "Should only contain mutual friend (friend1Uid)");
+      expect(friendList.first.uid, friend1Uid,
+          reason: "The mutual friend should be friend1Uid");
+      expect(friendList.first.nickname, 'FriendOne',
+          reason: "Friend1's nickname should be correctly populated");
     });
 
     test('Test Case 1.2: User has no mutual friends', () async {
@@ -126,14 +133,18 @@ void main() {
         firestore: fakeFirestore,
         uid: otherUser1Uid,
         nickname: 'OtherUserOne',
-        followers: [currentUserUid], // otherUser1 is followed by currentUser, but does not follow back
+        followers: [
+          currentUserUid
+        ], // otherUser1 is followed by currentUser, but does not follow back
         following: [],
       );
       await createTestUserInFirestore(
         firestore: fakeFirestore,
         uid: otherUser2Uid,
         nickname: 'OtherUserTwo',
-        following: [currentUserUid], // otherUser2 follows currentUser, but is not followed back
+        following: [
+          currentUserUid
+        ], // otherUser2 follows currentUser, but is not followed back
         followers: [],
       );
 
@@ -141,12 +152,14 @@ void main() {
       final List<UserModel> friendList = await friendRepository.getFriendList();
 
       // --- ASSERT ---
-      expect(friendList.isEmpty, isTrue, reason: "Friend list should be empty as there are no mutual friends");
+      expect(friendList.isEmpty, isTrue,
+          reason: "Friend list should be empty as there are no mutual friends");
     });
   });
 
   group('getFriendMap method', () {
-    test('Test Case 2.1: User has mutual friends (same setup as 1.1)', () async {
+    test('Test Case 2.1: User has mutual friends (same setup as 1.1)',
+        () async {
       // --- ARRANGE ---
       // (currentUserUid is already set in mockAuth via setUp)
       await createTestUserInFirestore(
@@ -158,7 +171,8 @@ void main() {
       await createTestUserInFirestore(
         firestore: fakeFirestore,
         uid: friend1Uid,
-        nickname: 'FriendOneMap', // Use different nickname to ensure it's fetched correctly for this test
+        nickname:
+            'FriendOneMap', // Use different nickname to ensure it's fetched correctly for this test
         following: [currentUserUid],
         followers: [currentUserUid],
       );
@@ -174,25 +188,34 @@ void main() {
         uid: friend3Uid,
         nickname: 'FriendThreeMap',
         following: [currentUserUid], // Current user follows friend3
-        followers: [],                // But friend3 does not follow current user
+        followers: [], // But friend3 does not follow current user
       );
-       await createTestUserInFirestore(firestore: fakeFirestore, uid: 'randomUserMap', followers: ['anotherRandomMap']);
-
+      await createTestUserInFirestore(
+          firestore: fakeFirestore,
+          uid: 'randomUserMap',
+          followers: ['anotherRandomMap']);
 
       // --- ACT ---
-      final Map<String, UserModel> friendMap = await friendRepository.getFriendMap();
+      final Map<String, UserModel> friendMap =
+          await friendRepository.getFriendMap();
 
       // --- ASSERT ---
-      expect(friendMap.length, 1, reason: "Friend map should contain one entry for the mutual friend");
-      expect(friendMap.containsKey(friend1Uid), isTrue, reason: "Map key should be friend1Uid");
-      
+      expect(friendMap.length, 1,
+          reason: "Friend map should contain one entry for the mutual friend");
+      expect(friendMap.containsKey(friend1Uid), isTrue,
+          reason: "Map key should be friend1Uid");
+
       final UserModel? friend1Model = friendMap[friend1Uid];
-      expect(friend1Model, isNotNull, reason: "UserModel for friend1Uid should not be null");
-      expect(friend1Model!.uid, friend1Uid, reason: "Friend1's UID in UserModel is correct");
-      expect(friend1Model.nickname, 'FriendOneMap', reason: "Friend1's nickname in UserModel is correct");
+      expect(friend1Model, isNotNull,
+          reason: "UserModel for friend1Uid should not be null");
+      expect(friend1Model!.uid, friend1Uid,
+          reason: "Friend1's UID in UserModel is correct");
+      expect(friend1Model.nickname, 'FriendOneMap',
+          reason: "Friend1's nickname in UserModel is correct");
     });
 
-    test('Test Case 2.2: User has no mutual friends (same setup as 1.2)', () async {
+    test('Test Case 2.2: User has no mutual friends (same setup as 1.2)',
+        () async {
       // --- ARRANGE ---
       await createTestUserInFirestore(
         firestore: fakeFirestore,
@@ -216,10 +239,12 @@ void main() {
       );
 
       // --- ACT ---
-      final Map<String, UserModel> friendMap = await friendRepository.getFriendMap();
+      final Map<String, UserModel> friendMap =
+          await friendRepository.getFriendMap();
 
       // --- ASSERT ---
-      expect(friendMap.isEmpty, isTrue, reason: "Friend map should be empty as there are no mutual friends");
+      expect(friendMap.isEmpty, isTrue,
+          reason: "Friend map should be empty as there are no mutual friends");
     });
   });
 }
