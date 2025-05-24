@@ -1,2 +1,0 @@
-C:/Users/Bandi/Desktop/Fork/THECommunity/android/app/.cxx/RelWithDebInfo/4v5h6w17/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/Bandi/Desktop/Fork/THECommunity/android/app/.cxx/RelWithDebInfo/4v5h6w17/x86_64/CMakeFiles/rebuild_cache.dir

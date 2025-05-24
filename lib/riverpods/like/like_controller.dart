@@ -24,7 +24,7 @@ class LikeController extends Notifier<LikeState> {
     state = state.copyWith(likeStatus: LikeStatus.submitting);
 
     try {
-      // where() 문으로, 인자 값으로 받은 삭제한 피드 모델과 다른 피드들만 빼내서 새로운 피드 리스트로 만든다
+      // where() 문으로, 인자 값으로 받은 삭제한 피드 모델과 다른 피드들만 빼내서, 새로운 좋아요 리스트를 만든다
       List<FeedModel> newLikeList =
           state.likeList.where((element) => element.feedId != feedId).toList();
 
@@ -41,7 +41,7 @@ class LikeController extends Notifier<LikeState> {
 
   /**
    * LikeState = 항상 내 데이터만 가진다
-   * 따라서 "내가" 좋아요 버튼을 누르면, 항상 LikeState 안의 likeList에도 추가한다
+   * 따라서 "내가" 좋아요 버튼을 누르면, 항상 LikeState 안의 likeList에도 추가/삭제한다
    */
   void likeFeed({
     required FeedModel likeFeedModel,
@@ -57,7 +57,7 @@ class LikeController extends Notifier<LikeState> {
           .indexWhere((feedModel) => feedModel.feedId == likeFeedModel.feedId);
 
       if (index == -1) {
-        // 좋아요였다면, 리스트에 추가
+        // 좋아요였다면, 리스트 앞에 추가
         newLikeList = [likeFeedModel, ...state.likeList];
       } else {
         // 좋아요 취소였다면, 리스트에서 삭제

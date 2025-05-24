@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../../../common/common.dart';
 
 /**
- * 피드 댓글 하나의 디자인을 결정하는 위젯
+ * 피드 댓글 카드의 디자인을 결정하는 위젯
  */
 class CommentItemWidget extends StatelessWidget {
   final CommentModel commentModel;

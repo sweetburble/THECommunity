@@ -14,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
  * GestureDetector는 애니메이션 효과는 없고 (직접 구현), 처리할 수 있는 제스처는 많다!
  */
 class FeedUploadFragment extends StatefulHookConsumerWidget {
-  // 피드을 업로드하고 나면, 메인 화면으로 이동하기 위해 mainScreen의 tabController의 index를 변경한다
+  // 피드을 업로드하고 나면, 커뮤니티 프래그먼트으로 이동하기 위해 mainScreen의 tabController의 index를 변경한다
   final VoidCallback onFeedUploaded;
 
   const FeedUploadFragment({
@@ -41,8 +41,7 @@ class _FeedUploadFragmentState extends ConsumerState<FeedUploadFragment> {
       maxWidth: 1024,
       maxHeight: 1024,
     );
-    return images
-        .map((item) => item.path)
+    return images.map((item) => item.path)
         .toList(); // XFile -> String으로 convert
   }
 
@@ -158,8 +157,8 @@ class _FeedUploadFragmentState extends ConsumerState<FeedUploadFragment> {
         ],
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
         // unfocus()는 입력 키보드를 내리는 역할을 한다
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           alignment: Alignment.topCenter,
@@ -212,6 +211,7 @@ class _FeedUploadFragmentState extends ConsumerState<FeedUploadFragment> {
                 if (_files.isNotEmpty)
                   Column(
                     children: [
+                      /// 피드 제목
                       TextFormField(
                         controller: _titleEditingController,
                         decoration: InputDecoration(
@@ -219,16 +219,18 @@ class _FeedUploadFragmentState extends ConsumerState<FeedUploadFragment> {
                           // border: InputBorder.none,
                           // border: OutlineInputBorder(),
                         ),
-                        maxLines: 1, // 몇줄을 써도 상관은 없지만, 표시만 5줄씩 해주는 것
+                        maxLines: 1, // 몇줄을 써도 상관은 없지만, 표시만 1줄씩 해주는 것
                       ),
                       Height(10),
+
+                      /// 피드 내용
                       TextFormField(
                         controller: _contentEditingController,
                         decoration: InputDecoration(
                           hintText: context.tr("content"),
                           border: InputBorder.none,
                         ),
-                        maxLines: 15, // 몇줄을 써도 상관은 없지만, 표시만 5줄씩 해주는 것
+                        maxLines: 15, // 몇줄을 써도 상관은 없지만, 표시만 15줄씩 해주는 것
                       ),
                     ],
                   ),

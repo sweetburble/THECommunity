@@ -148,7 +148,6 @@ class GeminiRepository {
  */
 void main() async {
 
-  // 여기에 실제 Gemini API Key를 입력하세요.
   final geminiRepo = GeminiRepository(apiKey: "test_gemini_key");
   final testText1 = "이것은 테스트 문장입니다. 두 번째 문장이 이어집니다. 그리고 세 번째 문장으로 마무리합니다. 네 번째 문장도 있습니다.";
   final testText2 = "짧은 글입니다.";

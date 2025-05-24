@@ -62,6 +62,7 @@ class UserController extends Notifier<UserState> {
     try {
       UserModel userModel =
           await ref.read(userRepositoryProvider).getProfile(uid: uid);
+
       List<FeedModel> feedList =
           await ref.read(feedRepositoryProvider).getFeedList(
                 uid: uid,
@@ -87,7 +88,7 @@ class UserController extends Notifier<UserState> {
   }
 
   /**
-   * "나의 피드"을 삭제했을 때
+   * "나의 피드"를 삭제했을 때
    */
   void deleteFeed({
     required String feedId,
@@ -126,8 +127,7 @@ class UserController extends Notifier<UserState> {
     try {
       final String myUid = ref.read(authStateProvider).value!.uid;
 
-      UserModel userModel = await ref
-          .read(userRepositoryProvider)
+      UserModel userModel = await ref.read(userRepositoryProvider)
           .followUser(myUid: myUid, followId: followId);
 
       state = state.copyWith(
@@ -151,7 +151,7 @@ class UserController extends Notifier<UserState> {
     state = state.copyWith(userStatus: UserStatus.submitting);
 
     try {
-      // 1) 좋아요/취소를 같이 구현한다
+      /// 1) 좋아요/취소를 같이 구현한다
       // newFeedModel의 likes에 myUid가 있으면 좋아요 로직을 실행, 없으면 취소 로직을 실행한다
       if (newFeedModel.likes.contains(state.userModel.uid)) {
         UserModel newUserModel = state.userModel;
@@ -163,7 +163,7 @@ class UserController extends Notifier<UserState> {
           userModel: newUserModel,
         );
       } else {
-        // 취소
+        /// 취소 로직
         UserModel newUserModel = state.userModel;
 
         List<String> newFeedLikeList = state.userModel.feedLikeList
@@ -178,7 +178,7 @@ class UserController extends Notifier<UserState> {
         );
       }
 
-      // 2) 1)과는 달리, 이미 newFeedModel에 구현되어 있으므로 그대로 feedList를 만들어주면 된다
+      /// 2) 1이랑 다르게, 이미 newFeedModel에 구현되어 있으므로 그대로 feedList를 만들어주면 된다
       List<FeedModel> newFeedList = state.feedList.map((feed) {
         return feed.feedId == newFeedModel.feedId ? newFeedModel : feed;
       }).toList();

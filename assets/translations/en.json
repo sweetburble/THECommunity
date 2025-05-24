@@ -39,7 +39,7 @@
   "createGroupScreenText2": "Enter group name",
   "createGroupScreenText3": "Select Friends",
 
-  "groupScreenText1": "People",
+  "groupScreenText1": "Participants",
 
   "receiver": "Me",
   "replyTo": "Reply to {userName}",

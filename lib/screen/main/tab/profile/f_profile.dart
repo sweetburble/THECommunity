@@ -41,7 +41,7 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
     super.initState();
     myUid = ref.read(authStateProvider).value!.uid;
 
-    // 내 프로필을 보는지 / 다른 유저의 프로필을 보는지에 따라 변경
+    // 내 프로필을 보는지 or 다른 유저의 프로필을 보는지에 따라 변경
     userController = (widget.uid == myUid) ? ref.read(userMyControllerProvider.notifier) : ref.read(userControllerProvider.notifier);
 
     _scrollController.addListener(scrollListener);
@@ -61,7 +61,7 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
    * _scrollController.position.maxScrollExtent; // 가능한 최대 스크롤 위치
    */
   void scrollListener() {
-    // 내 프로필을 보는지 / 다른 유저의 프로필을 보는지에 따라 가져오는 userState가 다름
+    // 내 프로필을 보는지 or 다른 유저의 프로필을 보는지에 따라 가져오는 userState가 다름
     UserState userState = (widget.uid == myUid) ? ref.read(userMyControllerProvider) : ref.read(userControllerProvider);
 
     if (userState.userStatus == UserStatus.reFetching) {
@@ -140,7 +140,7 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
 
   @override
   Widget build(BuildContext context) {
-    // 내 프로필을 보는지 / 다른 유저의 프로필을 보는지에 따라 가져오는 userState가 다름
+    // 내 프로필을 보는지 or 다른 유저의 프로필을 보는지에 따라 가져오는 userState가 다름
     UserState userState = (widget.uid == myUid) ? ref.watch(userMyControllerProvider) : ref.watch(userControllerProvider);
     UserModel userModel = userState.userModel;
     List<FeedModel> feedList = userState.feedList; // 그 유저가 작성한 피드 리스트
@@ -154,7 +154,7 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
             children: [
               Row(
                 children: [
-                  // 1. 유저의 프로필 이미지와 닉네임
+                  /// 1. 유저의 프로필 이미지와 닉네임
                   Column(
                     children: [
                       AvatarWidget(userModel: userModel, isTap: false, radius: 40),
@@ -162,7 +162,8 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
                       userModel.nickname.text.bold.makeWithDefaultFont(),
                     ],
                   ),
-                  // 2. Feed, Follower, Following에 대한 정보
+
+                  /// 2. Feed, Follower, Following에 대한 정보
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,11 +181,10 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
                 ],
               ),
 
-              /// 3. 로그아웃 버튼 / 다른 유저라면 팔로우/언팔 버튼
+              /// 3. 로그아웃 버튼 or 다른 유저라면 팔로우/언팔 버튼
               myUid == userModel.uid
                   ? _customButtonWidget(
-                      asyncCallback:
-                          ref.read(authControllerProvider.notifier).signOut,
+                      asyncCallback: ref.read(authControllerProvider.notifier).signOut,
                       text: context.tr("logout"))
                   : _customButtonWidget(
                       asyncCallback: () async {
@@ -204,8 +204,8 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
                   // 그리드뷰 옵션 속성
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 3,
-                    mainAxisSpacing: 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
                   ),
                   itemCount: feedList.length + 1,
                   itemBuilder: (context, index) {
@@ -222,9 +222,12 @@ class _ProfileFragmentState extends ConsumerState<ProfileFragment> {
                       onTap: () {
                         Nav.push(FeedDetailScreen(oldFeedModel: feedList[index]));
                       },
-                      child: ExtendedImage.network(
-                        feedList[index].imageUrls[0],
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ExtendedImage.network(
+                          feedList[index].imageUrls[0],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     );
                   },

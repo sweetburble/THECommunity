@@ -106,7 +106,7 @@ dependencies:
   loader_overlay: ^5.0.0 # 로딩 화면 구현을 돕는 패키지
   flutter_slidable: ^4.0.0 # 슬라이딩 기능을 구현한 패키지
   fluttertoast: ^8.2.12 # 토스트 기능을 추가하는 패키지
-  flutter_local_notifications: ^19.2.0 # 앱 푸시 메시지를 구현하는 패키지
+  flutter_local_notifications: ^19.2.1 # 앱 푸시 메시지를 구현하는 패키지
 
   # 통신
   http: ^1.4.0

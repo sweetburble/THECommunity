@@ -5,6 +5,9 @@ import 'package:nav/dialog/dialog.dart';
 
 import '../../common/common.dart';
 
+/**
+ * 직접 만든 메시지가 있는 다이얼로그
+ */
 class MessageDialog extends DialogWidget<SimpleResult> {
   final String? message;
   final String? buttonText;

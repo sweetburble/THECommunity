@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import 'chat_screen.dart';
+
 /**
  * 서로 팔로우 한 유저들만 DM을 주고 받을 수 있다
  * DM 가능한 "친구"들을 표시해주는 스크린
@@ -19,6 +21,7 @@ class FriendListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
+      // getFriendListProvider는 List<UserModel>을 가지고 있다
       child: ref.watch(getFriendListProvider).when(
         data: (data) {
           context.loaderOverlay.hide();
@@ -37,9 +40,9 @@ class FriendListScreen extends ConsumerWidget {
                           selectedUserModel: friendUserModel,
                         );
 
-                    // then()을 사용하면, push()로 이동했다가 뒤로가기,pop() 등으로 빠져나오면 실행할 로직을 정할 수 있다
+                    // then()을 사용하면, push()로 이동한 곳에서, 뒤로가기나 pop() 등으로 빠져나올 때 실행할 로직을 정할 수 있다
                     if (context.mounted) {
-                      context.push("/chat-screen").then(
+                      context.push(ChatScreen.routeName).then(
                           (value) {
                             ref.invalidate(chatControllerProvider);
                           });

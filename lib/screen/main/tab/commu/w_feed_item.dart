@@ -37,9 +37,7 @@ class FeedItemWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     height5,
-                    feedModel.title.text
-                        .size(18)
-                        .bold
+                    feedModel.title.text.size(18).bold
                         .color(context.appColors.lessImportantColor)
                         .makeWithDefaultFont(),
                     height5,
@@ -90,6 +88,8 @@ class FeedItemWidget extends ConsumerWidget {
                   ],
                 ),
                 Spacer(),
+
+                /// 썸네일
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(

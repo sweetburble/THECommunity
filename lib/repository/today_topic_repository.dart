@@ -11,7 +11,7 @@ class TodayTopicRepository {
   });
 
   /**
-   * Firestore에 저장되어 있는 "오늘의 토론 주제"를 가져옵니다
+   * Firestore에 저장되어 있는 "오늘의 토론 주제"를 가져온다
    */
   Future<TodayTopic> getTodayTopic(String today) async {
     try {

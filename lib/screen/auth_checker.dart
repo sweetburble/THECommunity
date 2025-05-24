@@ -10,6 +10,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 import 'main/main_screen.dart';
 
+/**
+ * 로그인 여부를 확인한다
+ */
 class AuthChecker extends ConsumerWidget {
   const AuthChecker({super.key});
 
@@ -48,42 +51,15 @@ class AuthChecker extends ConsumerWidget {
   }
 }
 
-/*
-class AuthChecker extends ConsumerWidget {
-  const AuthChecker({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authControllerProvider);
-
-    // 위젯을 다 그리기 전에, 다른 페이지로 이동하면 에러가 발생한다! -> 위젯을 그릴 때까지 아래 로직 대기
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushAndRemoveUntil( // 기존에 쌓여 있던 모든 위젯들을 삭제한 다음 이동한다
-        context,
-        MaterialPageRoute(
-          builder: (context) => authState.authStatus == AuthStatus.authenticated
-              ? MainScreen() // 로그인 상태(authenticated)면, 메인 페이지로 이동
-              : SigninScreen(), // 아니면, 로그인 화면으로 이동
-        ),
-            (route) => route.isFirst, // true로 바꾸면 일반 push()랑 똑같은 동작을 한다
-        // + route.isFirst로 하면 가장 처음 위젯 = SplashScreen만 남기고 삭제한다
-      );
-    });
-
-    return const SplashScreen();
-  }
-}
-*/
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}
+// class SplashScreen extends StatelessWidget {
+//   const SplashScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: CircularProgressIndicator(),
+//       ),
+//     );
+//   }
+// }

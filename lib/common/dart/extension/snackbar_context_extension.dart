@@ -95,27 +95,29 @@ class _SnackbarFactory {
     bool isFloating = false,
   }) {
     return SnackBar(
-        elevation: 0,
-        behavior: isFloating ? SnackBarBehavior.floating : SnackBarBehavior.fixed,
-        backgroundColor: Colors.transparent,
-        content: Tap(
-          onTap: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(bottom: bottomMargin),
-            child: Text("$message",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontStyle: FontStyle.normal,
-                )),
+      elevation: 0,
+      behavior: isFloating ? SnackBarBehavior.floating : SnackBarBehavior.fixed,
+      backgroundColor: Colors.transparent,
+      content: Tap(
+        onTap: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(5),
           ),
-        ));
+          padding: const EdgeInsets.all(20),
+          margin: EdgeInsets.only(bottom: bottomMargin),
+          child: Text("$message",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontStyle: FontStyle.normal,
+              ),
+          ),
+        ),
+      ),
+    );
   }
 }

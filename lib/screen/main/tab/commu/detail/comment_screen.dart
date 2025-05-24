@@ -30,6 +30,7 @@ class CommentScreen extends StatelessWidget {
         itemCount: commentList.length,
         itemBuilder: (context, index) {
           return CommentItemWidget(commentModel: commentList[index]);
-        });
+        },
+    );
   }
 }

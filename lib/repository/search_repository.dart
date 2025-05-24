@@ -22,8 +22,7 @@ class SearchRepository {
           await firebaseFirestore
               .collection('users') // "name"이 keyword라면,
               .where('nickname',
-                  isGreaterThanOrEqualTo:
-                      keyword) // [name1, nbme1, name2] 도 검색된다
+                  isGreaterThanOrEqualTo: keyword) // [name1, nbme1, name2] 도 검색된다
               .where('nickname',
                   isLessThanOrEqualTo: '$keyword\uf7ff') // isLessThanOrEqualTo 사용해서 nbme1를 거른 뒤에,
               // 처음 4글자만 맞으면 뒤는 어떤 글자가 나와도 검색되도록 + \uf7ff는 유니코드에서 가장 큰 코드를 가진다

@@ -19,8 +19,7 @@ class CreateGroupRoomScreen extends StatefulHookConsumerWidget {
   const CreateGroupRoomScreen({super.key});
 
   @override
-  ConsumerState<CreateGroupRoomScreen> createState() =>
-      _CreateGroupRoomScreenState();
+  ConsumerState<CreateGroupRoomScreen> createState() => _CreateGroupRoomScreenState();
 }
 
 class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
@@ -101,6 +100,7 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
           border: Border.all(color: context.appColors.blackAndWhite),
         ),
         width: context.deviceWidth * 0.8,
+        // getFriendListProvider는 List<UserModel>을 갖는다
         child: ref.watch(getFriendListProvider).when(
           data: (data) {
             return ListView.separated(
@@ -108,7 +108,8 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final friendUserModel = data[index]; // 친구들의 연락처 데이터 객체
-                // 선택이 안되었으면 -1 / 선택이 되었다면 그 위치(인덱스)
+
+                // 선택이 안된 상태면 -1 / 선택이 된 상태면 그 위치(인덱스)
                 final selectedFriendIndex = selectedFriendList.indexOf(friendUserModel.uid);
 
                 return GestureDetector(
@@ -212,8 +213,7 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
         onPressed: isEnabled
             ? () async {
                 try {
-                  await ref
-                      .read(groupChatControllerProvider.notifier)
+                  await ref.read(groupChatControllerProvider.notifier)
                       .createGroupChatRoom(
                         groupChatRoomName: textEditingController.text,
                         groupChatRoomImage: image,

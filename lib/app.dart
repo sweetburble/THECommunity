@@ -85,7 +85,7 @@ class AppState extends ConsumerState<App> with Nav, WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      case AppLifecycleState.hidden: // Flutter 3.13 이하 버전을 쓰신다면 해당 라인을 삭제
+      case AppLifecycleState.hidden:
         break;
     }
     super.didChangeAppLifecycleState(state);

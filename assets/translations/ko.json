@@ -35,11 +35,11 @@
   "mainLayoutScreenText6": "로그아웃",
   "mainLayoutScreenText7": "테마",
 
-  "createGroupScreenText1": "그룹 생성",
-  "createGroupScreenText2": "그룹 이름 입력",
+  "createGroupScreenText1": "그룹 채팅방 생성",
+  "createGroupScreenText2": "그룹 채팅방 이름은?",
   "createGroupScreenText3": "친구 선택",
 
-  "groupScreenText1": "명",
+  "groupScreenText1": "명 참가중",
 
   "receiver": "나",
   "replyTo": "{userName}에게 답장",

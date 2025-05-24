@@ -31,5 +31,4 @@ class AuthState {
       authStatus: authStatus ?? this.authStatus,
     );
   }
-
 }

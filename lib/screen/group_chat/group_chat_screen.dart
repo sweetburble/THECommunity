@@ -45,14 +45,14 @@ class _ChatScreenState extends ConsumerState<GroupChatScreen> {
             children: [
               CircleAvatar(
                 backgroundImage: currentChatRoomModel.groupRoomImageUrl == null
-                    ? ExtendedAssetImageProvider('assets/image/profile.png')
-                        as ImageProvider
+                    ? ExtendedAssetImageProvider('assets/image/profile.png') as ImageProvider
                     : ExtendedNetworkImageProvider(
                         currentChatRoomModel.groupRoomImageUrl!),
               ),
               width10,
-              /// 현재 채팅방에 참여하고 있는 유저를 센다 -> 우리의 그룹 채팅방 (3명)
-              '${currentChatRoomModel.groupRoomName} (${currentChatRoomModel.userList.where((userId) => userId.isNotEmpty).length}${context.tr('groupScreenText1')})'
+              /// 현재 채팅방에 참여하고 있는 유저들을 센다 -> 우리의 그룹 채팅방 | 3명 참가중
+              '${currentChatRoomModel.groupRoomName} | ${currentChatRoomModel.userList.where((userId) =>
+                userId.isNotEmpty).length}${context.tr('groupScreenText1')}'
                   .text.bold.ellipsis.make(),
             ],
           ),

@@ -9,7 +9,7 @@ enum CommentStatus {
 }
 
 /**
- * 한 피드에 달린 "모든 댓글"을 "상태"로 지정했다.
+ * 한 피드에 달린 "모든 댓글"들을 "상태"로 지정했다.
  */
 class CommentState {
   final CommentStatus commentStatus;

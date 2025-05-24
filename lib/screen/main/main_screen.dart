@@ -69,7 +69,7 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
   }
 
   /**
-   * 채팅방 밖에 있거나, 아예 앱 밖에 있을 때 -> 새로운 채팅 알림을 위한 함수
+   * 채팅방 밖에 있거나, 아예 앱 밖에 있을 때 -> 새로운 채팅 푸시 메시지를 위한 함수
    * StreamProvider<List<BaseChatRoomModel>> : chatRoomListProvider와 groupChatRoomListProvider를 모두 받을 수 있다
    * ref.listen()을 통해 참여중인 모든 채팅방 모델을 감시한다.
    * -> 어떤 채팅방에 새로운 채팅이 전송되면, 그 채팅방 모델의 데이터도 변하니까
@@ -92,10 +92,10 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
           : groupChatControllerProvider;
       if (ref.watch(provider).model.id == next.value!.first.id) return;
 
-      // 5. 내가 참여중인 채팅방이 증가하거나 감소했을 때도 알림이 발생할 수 있어서
+      // 5. 내가 참여중인 채팅방이 증가하거나 감소했을 때도 상태가 변함 -> 알림이 발생하면, 안됨!
       if (next.value!.length != previous.value!.length) return;
 
-      // 6. 내가 아닌 다른 유저가 참여 중인 채팅방에서 증가, 감소했을 경우
+      // 6. 내가 아닌 다른 유저가 참여 중인 채팅방이 증가, 감소했을 경우
       // 6-1) 새로운 채팅이 올라온 채팅방의 데이터를 토대로 찾아서, 이전 데이터 값도 저장한다
       // 6-2) 유저가 채팅방을 나가면, 로직상 UID가 ""가 되니까 -> 개수가 다르면 새로 나갔다는 뜻
       final nextChatRoomModel = next.value!.first;
@@ -107,8 +107,8 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
               .where((userId) => userId.isEmpty).length) { return; }
 
       /// flutter_local_notifications 패키지로 푸시 메시지 구현
-      /// 1. 푸시 메시지 title : 1대1 채팅이면 친구 닉네임, 그룹 채팅방이면 그룹 채팅방 이름
-      /// 2. 푸시 메시지 body : 새로운 채팅 내용
+      // 1. 푸시 메시지 title : 1대1 채팅이면 친구 닉네임, 그룹 채팅방이면 그룹 채팅방 이름
+      // 2. 푸시 메시지 body : 새로운 채팅 내용
       String title;
       if (next.value!.first is ChatRoomModel) {
         final friendModel = await ref.read(userRepositoryProvider).getProfile(uid: next.value!.first.userList[1]);
@@ -157,8 +157,8 @@ class _MainScreenState extends ConsumerState<MainScreen> with SingleTickerProvid
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
           // shifting은 선택한 bottomNavigationBar에 애니메이션이 들어간다
+          type: BottomNavigationBarType.fixed,
           currentIndex: tabController.index,
           onTap: bottomNavigationItemOnTab,
           selectedItemColor: context.appColors.text,

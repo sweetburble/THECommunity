@@ -12,6 +12,9 @@ import '../../common/language/language.dart';
 import '../../common/theme/theme_util.dart';
 import '../../common/widget/w_mode_switch.dart';
 
+/**
+ * 직접 정의한 드로어(햄버거) 위젯
+ */
 class MenuDrawer extends StatefulHookConsumerWidget {
   static const minHeightForScrollView = 380;
 

@@ -44,8 +44,8 @@ class _ChatListWidgetState extends ConsumerState<ChattingListWidget> {
   }
 
   /**
-   * "예전 채팅 내역을 조회할 지 결정"하기 위해 스크롤의 위치를 파악한다
-   * + "채팅방 상태"에 이전 채팅 내역이 있는 지 관리하는 hasPrev 속성으로 최적화한다
+   * "예전 채팅 내역을 조회할 지 결정"하기 위해, 스크롤의 위치를 파악한다
+   * 더해서 "채팅방 상태"에 이전 채팅 내역이 있는지 관리하는 hasPrev 속성으로 최적화한다
    */
   void scrollListener() {
     final baseChatRoomModel = ref.read(baseChatProvider);
@@ -111,8 +111,7 @@ class _ChatListWidgetState extends ConsumerState<ChattingListWidget> {
       // 2) controllerProvider를 초기화 할 때, 토스트가 전달되면 안된다
       // 3) 스크롤을 올려서, 예전 채팅 내역을 가져올 때, 토스트가 전달되면 안된다 -> 채팅 내역의 first가 달라지면 과거 내역 조회를 했다는 뜻
       // 4) 내가 채팅를 작성했을 때는, 토스트가 전달되면 안된다
-      if (next.model.id.isEmpty ||
-          previous == null ||
+      if (next.model.id.isEmpty || previous == null ||
           previous.chatList.first != next.chatList.first ||
           next.chatList.last.userId == myUID) { return; }
 
@@ -138,18 +137,15 @@ class _ChatListWidgetState extends ConsumerState<ChattingListWidget> {
           updatedModelList?.first; // repository에서 채팅방 리스트를 최신 업데이트 순으로 조회하기 때문
 
       // 지금 보고있는 채팅방에서 값이 변했다면(= 나 포함 누군가 새로운 채팅을 했다면), 변경된 채팅 내역만 조회한다
-      if (updatedModelList != null &&
-          updatedModel!.id == baseChatRoomModel.id) {
+      if (updatedModelList != null && updatedModel!.id == baseChatRoomModel.id) {
         final lastChatId =
             chattingList.isNotEmpty ? chattingList.last.chattingId : null;
 
         if (baseChatRoomModel is ChatRoomModel) {
-          ref
-              .read(chatControllerProvider.notifier)
+          ref.read(chatControllerProvider.notifier)
               .getChattingList(lastChatId: lastChatId);
         } else {
-          ref
-              .read(groupChatControllerProvider.notifier)
+          ref.read(groupChatControllerProvider.notifier)
               .getChattingList(lastChatId: lastChatId);
         }
       }

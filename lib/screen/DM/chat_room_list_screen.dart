@@ -60,14 +60,13 @@ class _ChattingListScreenState extends ConsumerState<ChatRoomListScreen> {
                     ref.read(chatControllerProvider.notifier)
                         .enterChatFromChatRoomList(chatRoomModel: currentChatRoomModel);
 
-                    // then()을 사용하면, push()로 이동했다가 뒤로가기,pop() 등으로 빠져나오면 실행할 로직을 정할 수 있다
+                    // then()을 사용하면, push()로 이동한 곳에서, 뒤로가기나 pop() 등으로 빠져나오면 실행할 로직을 정할 수 있다
                     if (context.mounted) {
                       context.push(ChatScreen.routeName).then((value) =>
                           ref.invalidate(chatControllerProvider));
                     }
                   },
-                  leading: AvatarWidget(
-                      userModel: friendModel, isTap: false, radius: 30),
+                  leading: AvatarWidget(userModel: friendModel, isTap: false, radius: 30),
                   title: Text(
                     friendModel.nickname.isEmpty
                         ? context.tr('unknown')
@@ -81,7 +80,7 @@ class _ChattingListScreenState extends ConsumerState<ChatRoomListScreen> {
                       fontSize: 15,
                       color: context.appColors.lessImportantColor,
                     ),
-                    maxLines: 3, // 최근 채팅는 최대 3줄만 출력한다
+                    maxLines: 3, // 최근 채팅은 최대 3줄만 출력한다
                     overflow: TextOverflow.ellipsis,
                   ),
                   trailing: Text(

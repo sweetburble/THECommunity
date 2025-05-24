@@ -65,8 +65,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       canPop: false,
       onPopInvokedWithResult: (_, __) => false,
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
         // FocusScope()로 현재 어디에 focus가 있는지 찾고, unfocus()로 그걸 해제한다
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           body: Center(
             child: Form(
@@ -74,18 +74,19 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
               // 검증 로직 정책을 설정한다 -> 처음에는 가만히 있다가 회원가입을 누른 순간부터는 지속적으로 체크한다
               autovalidateMode: _autoValidateMode,
               child: ListView(
-                shrinkWrap: true,
                 // ListView가 내부의 콘텐츠만큼만 크기를 갖는다
+                shrinkWrap: true,
                 reverse: true,
                 // 여기서 역정렬, 아래 children에서도 다시 한번 역정렬해서 키보드가 가리지 않게 조치
                 children: [
-                  // 로고
+                  /// 로고
                   SvgPicture.asset(
                     'assets/image/icon/더커뮤로고_블랙.svg',
                     height: 80,
                   ),
                   height20,
-                  // 프로필 사진
+
+                  /// 프로필 사진
                   Container(
                     alignment: Alignment.center,
                     child: Stack(
@@ -113,7 +114,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   height30,
 
-                  // 이메일
+                  /// 이메일
                   TextFormField(
                     enabled: _isEnabled,
                     controller: _emailEditingController,
@@ -139,7 +140,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   height20,
 
-                  // 닉네임
+                  /// 닉네임
                   TextFormField(
                     enabled: _isEnabled,
                     controller: _nameEditingController,
@@ -162,7 +163,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   height20,
 
-                  // 패스워드
+                  /// 패스워드
                   TextFormField(
                     enabled: _isEnabled,
                     controller: _passwordEditingController,
@@ -186,7 +187,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   height20,
 
-                  // 패스워드 확인
+                  /// 패스워드 확인
                   TextFormField(
                     enabled: _isEnabled,
                     obscureText: true,
@@ -206,7 +207,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   const SizedBox(height: 40),
 
-                  // 회원가입 버튼
+                  /// 회원가입 버튼
                   ElevatedButton(
                     onPressed: _isEnabled
                         ? () async {
@@ -229,8 +230,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             });
 
                             try {
-                              await ref
-                                  .read(authControllerProvider.notifier)
+                              await ref.read(authControllerProvider.notifier)
                                   .signUp(
                                       email: _emailEditingController.text,
                                       password: _passwordEditingController.text,
@@ -258,7 +258,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   ),
                   height10,
 
-                  // 로그인 화면 이동
+                  /// 로그인 화면 이동 버튼
                   TextButton(
                     onPressed: _isEnabled
                         ? () => context.pop()

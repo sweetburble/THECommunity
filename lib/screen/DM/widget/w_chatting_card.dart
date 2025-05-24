@@ -113,11 +113,8 @@ class _ChattingCardWidgetState extends ConsumerState<ChattingCardWidget>
               ),
             )
           : null,
-      title: context
-          .tr('replyTo', namedArgs: {'userName': userName})
-          .text
-          .bold
-          .make(),
+      title: context.tr('replyTo', namedArgs: {'userName': userName})
+          .text.bold.make(),
       subtitle: Text(
         replyChatModel.chatType == ChatTypeEnum.text
             ? replyChatModel.text
@@ -130,7 +127,7 @@ class _ChattingCardWidgetState extends ConsumerState<ChattingCardWidget>
   }
 
   /**
-   * 이미지/동영상 채팅을 답장할 때, 미리 보여지는 위젯
+   * 이미지 or 동영상 채팅을 답장할 때, 미리 보여지는 위젯
    */
   Widget mediaPreviewWidget({
     required String url,
@@ -203,8 +200,7 @@ class _ChattingCardWidgetState extends ConsumerState<ChattingCardWidget>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (!isMyChat)
-                      AvatarWidget(
-                          userModel: userModel, isTap: false, radius: 30),
+                      AvatarWidget(userModel: userModel, isTap: false, radius: 30),
                     width5,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,11 +210,8 @@ class _ChattingCardWidgetState extends ConsumerState<ChattingCardWidget>
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             if (isMyChat)
-                              createAt.text
-                                  .size(8)
-                                  .color(context.appColors.lessImportantColor)
-                                  .make()
-                                  .pOnly(right: 5, bottom: 8),
+                              createAt.text.size(8).color(context.appColors.lessImportantColor)
+                                  .make().pOnly(right: 5, bottom: 8),
                             Container(
                               padding: const EdgeInsets.all(8),
                               margin: const EdgeInsets.symmetric(vertical: 5),
@@ -262,11 +255,8 @@ class _ChattingCardWidgetState extends ConsumerState<ChattingCardWidget>
                               ),
                             ),
                             if (!isMyChat)
-                              createAt.text
-                                  .size(8)
-                                  .color(context.appColors.lessImportantColor)
-                                  .make()
-                                  .pOnly(left: 5, bottom: 8),
+                              createAt.text.size(8).color(context.appColors.lessImportantColor)
+                                  .make().pOnly(left: 5, bottom: 8),
                           ],
                         ),
                       ],

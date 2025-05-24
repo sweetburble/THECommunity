@@ -4,7 +4,7 @@ import 'package:THECommu/data/models/feed_model.dart';
  * 피드 "자체가 어떤 상태"인지 정의하는 enum
  */
 enum FeedStatus {
-  init, // 피드 초기
+  init, // 피드 초기 상태
   submitting, // 피드 등록 중
   fetching, // 피드 목록 조회 중
   reFetching, // 페이징 -> n개의 데이터를 표시하고 나서, 그 다음 n개의 데이터를 가져오는 중의 상태
@@ -49,9 +49,9 @@ class FeedState {
   FeedModel? getFeed({
     required String feedId,
   }) {
-    for (var item in feedList) {
-      if (item.feedId == feedId) {
-        return item;
+    for (var feedModel in feedList) {
+      if (feedModel.feedId == feedId) {
+        return feedModel;
       }
     }
     return null;

@@ -13,7 +13,7 @@ class ChatModel {
   final String text; // 채팅 내용
   final ChatTypeEnum chatType; // 채팅 타입 enum -> 텍스트/이미지/동영상
   final Timestamp createAt; // 채팅 생성 시간
-  final ChatModel? replyChatModel; // 만약에 답장 채팅이었다면, 원본 채팅의 데이터 모델을 담는다
+  final ChatModel? replyChatModel; // 만약 이 객체가 답장 채팅이라면, 원본 채팅의 데이터 모델도 저장한다
 
   const ChatModel({
     required this.userId,

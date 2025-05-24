@@ -21,7 +21,7 @@ class _CommunityFragmentState extends ConsumerState<CommunityFragment> {
   void initState() {
     super.initState();
     _showConfirmDialog(context);
-    logger.d("community_fragment inistate() 시작");
+    logger.d("community_fragment initState() 시작");
   }
 
   /**

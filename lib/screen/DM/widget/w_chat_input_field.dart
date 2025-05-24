@@ -172,7 +172,6 @@ class _ChatInputFieldWidgetState extends ConsumerState<ChatInputFieldWidget> {
   Future<void> _sendMediaChat({
     required ChatTypeEnum chatType,
   }) async {
-    final baseChatRoomModel = ref.read(baseChatProvider);
     XFile? xFile;
     if (chatType == ChatTypeEnum.image) {
       xFile = await ImagePicker().pickImage(
@@ -188,6 +187,7 @@ class _ChatInputFieldWidgetState extends ConsumerState<ChatInputFieldWidget> {
 
     if (xFile == null) return;
 
+    final baseChatRoomModel = ref.read(baseChatProvider);
     /// chat_screen의 키보드였다면, 1대1 채팅 컨트롤러 호출
     /// group_chat_screen의 키보드였다면, 그룹 채팅 컨트롤러를 호출한다
     if (baseChatRoomModel is ChatRoomModel) {
@@ -232,11 +232,8 @@ class _ChatInputFieldWidgetState extends ConsumerState<ChatInputFieldWidget> {
               ),
             )
           : null,
-      title: context
-          .tr('replyTo', namedArgs: {'userName': userName})
-          .text
-          .bold
-          .make(),
+      title: context.tr('replyTo', namedArgs: {'userName': userName})
+          .text.bold.make(),
       subtitle: Text(
         replyChatModel.chatType == ChatTypeEnum.text
             ? replyChatModel.text
@@ -271,7 +268,7 @@ class _ChatInputFieldWidgetState extends ConsumerState<ChatInputFieldWidget> {
   Widget build(BuildContext context) {
     final replyChatModel = ref.watch(replyChatModelProvider);
 
-    /// 답장 채팅 인지 / 일반 채팅 인지
+    /// 답장 채팅? or 일반 채팅?
     final isReplyChat = (replyChatModel != null);
 
     return PopScope(

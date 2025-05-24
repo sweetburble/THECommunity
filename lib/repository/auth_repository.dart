@@ -80,8 +80,10 @@ class AuthRepository {
 
       if (profileImage != null) {
         Reference ref = firebaseStorage.ref().child("profile").child(uid);
-        TaskSnapshot snapshot = await ref.putData(
-            profileImage); // 프로필 이미지를 완전히 스토리지에 업로드해야, 아래 코드에서 접근할 수 있다
+
+        // 프로필 이미지를 완전히 스토리지에 업로드해야, 아래 코드에서 접근할 수 있다
+        TaskSnapshot snapshot = await ref.putData(profileImage);
+
         downloadURL =
             await snapshot.ref.getDownloadURL(); // 업로드한 프로필 이미지에 접근할 수 있는 경로이다
       }

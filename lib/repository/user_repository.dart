@@ -46,8 +46,7 @@ class UserRepository {
 
       await batch.commit();
 
-      Map<String, dynamic> map = await followUserDocRef.get().then((
-          value) => value.data()!);
+      Map<String, dynamic> map = await followUserDocRef.get().then((value) => value.data()!);
       return UserModel.fromMap(map); // UserModel 반환
     } catch (e) {
       // 2. 기타 모든 예외

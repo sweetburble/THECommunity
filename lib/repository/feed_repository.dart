@@ -14,7 +14,7 @@ import 'package:THECommu/ai/gpt_repository.dart';
 import 'package:THECommu/ai/gemini_repository.dart';
 
 /**
- * 이미지 파일은 가장 먼저 Firebase Storage에 저장한 다음, 그곳에서 주는 경로를 FireStore에 저장하는 방식이다
+ * 이미지 파일은 가장 먼저 Firebase Storage에 저장한 다음, 그곳에서 제공하는 접근 경로를 FireStore에 저장하는 방식이다
  */
 class FeedRepository {
   final FirebaseStorage firebaseStorage;
@@ -29,8 +29,8 @@ class FeedRepository {
 
   /**
    * 피드 다수 조회
-   * 1) uid == null이면, 모든 사용자의 피드를 조회하고, -> 커뮤니티 화면
-   * 2) null이 아니면, 특정 사용자의 피드만 조회한다 -> 프로필 화면
+   * 1) uid == null : 모든 사용자의 피드를 조회하고, -> 커뮤니티 초기 화면
+   * 2) uid != null : 특정 사용자의 피드만 조회한다 -> 프로필 화면
    * 3) feedId를 토대로 페이징도 적용한다 -> "feedId" 피드부터 "feedLength"개 만큼 조회
    */
   Future<List<FeedModel>> getFeedList({
@@ -40,8 +40,7 @@ class FeedRepository {
   }) async {
     try {
       // snapshot을 생성하기 위한 query 생성
-      Query<Map<String, dynamic>> query = firebaseFirestore
-          .collection('feeds')
+      Query<Map<String, dynamic>> query = firebaseFirestore.collection('feeds')
           .orderBy('createAt', descending: true)
           .limit(feedLength); // 페이징 적용
 
@@ -73,6 +72,7 @@ class FeedRepository {
         data['writer'] = userModel;
         return FeedModel.fromMap(data);
       }).toList());
+
     } on FirebaseException catch (e) {
       // 1. 파이어베이스 관련 예외
       throw CustomException(code: e.code, message: e.message!);
@@ -83,7 +83,7 @@ class FeedRepository {
   }
 
   /**
-   * "내가" "나의 피드"을 삭제
+   * "내가" "나의 피드"를 삭제
    */
   Future<void> deleteFeed({
     required FeedModel feedModel,
@@ -97,8 +97,7 @@ class FeedRepository {
           firebaseFirestore.collection('users').doc(feedModel.uid);
 
       // 이 피드를 좋아요한 유저들의 uid 리스트
-      List<String> likes = await feedDocRef
-          .get()
+      List<String> likes = await feedDocRef.get()
           .then((value) => List<String>.from(value.data()!['likes']));
 
       for (var uid in likes) {
@@ -148,7 +147,7 @@ class FeedRepository {
     final User? currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser == null) {
-      logger.w("경고: 사용자가 로그인되어 있지 않습니다. 피드 업로드를 진행할 수 없습니다."); // logger가 있다면 사용
+      logger.w("경고: 사용자가 로그인되어 있지 않습니다. 피드 업로드를 진행할 수 없습니다.");
       throw CustomException(code: "UNAUTHENTICATED", message: "피드를 업로드하려면 로그인이 필요합니다.");
     } else {
       logger.d("현재 로그인된 사용자의 uid : ${currentUser.uid}, 전달받은 uid: $myUid");

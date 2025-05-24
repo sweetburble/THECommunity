@@ -14,11 +14,12 @@ import 'package:THECommu/riverpods/user/user_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// TIP) 또는 ChatController.new 라고 적어도 된다
-final chatControllerProvider = NotifierProvider<ChatController, ChatRoomState>(ChatController.new);
+final chatControllerProvider
+  = NotifierProvider<ChatController, ChatRoomState>(ChatController.new);
 
 
 /**
- * "채팅방의 상태"를 가져서, 상태관리한다
+ * "1대1 채팅방의 상태"를 가져서, 상태관리한다
  */
 class ChatController extends Notifier<ChatRoomState> {
   late LoaderController loaderController;
@@ -78,7 +79,7 @@ class ChatController extends Notifier<ChatRoomState> {
   }
 
   /**
-   * "내가" 채팅방에서 채팅(DM) 전송
+   * "내가" 1대1 채팅방에서 채팅(DM) 전송
    * 텍스트 전송 / 이미지 전송 / 동영상 전송 -> 3가지 타입이 있다
    */
   Future<void> sendChat({
@@ -138,7 +139,7 @@ class ChatController extends Notifier<ChatRoomState> {
       ];
 
       // 조회한 채팅 내역이 20개 보다 적으면, 더 이상 조회할 채팅이 없다는 뜻!
-      // lastChatId가 null이 아니면 -> 누군가 채팅를 작성했다 -> 그로 인해 안 보이게 된 채팅이 있을 수 있음
+      // lastChatId가 null이 아니면 -> 누군가 채팅을 작성했다 -> 그로 인해 안 보이게 된 채팅이 있을 수 있음
       // -> hasPrev = true 로 설정
       state = state.copyWith(
         chatList: newChatList,

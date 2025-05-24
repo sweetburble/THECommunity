@@ -32,8 +32,8 @@ final chatRoomListProvider = StreamProvider.autoDispose<List<ChatRoomModel>>((re
 /**
  * 답장 채팅 모델을 상태로 관리하는 프로바이더
  * w_chatting_card에서 클래스가 가지고 있는 ChatModel 객체를(= 답장을 달고 싶은 채팅) 상태로 갖는다
- * 따라서 이 프로바이더가 null이면 -> 일반 채팅를 작성 중인 것이다
- *                null이 아니면 -> 답장 채팅를 작성 중인 것이다
+ * 따라서 이 프로바이더가 null이면 -> 일반 채팅을 작성 중인 것이다
+ *                null이 아니면 -> 답장 채팅을 작성 중인 것이다
  */
 final replyChatModelProvider = AutoDisposeStateProvider<ChatModel?>(
   (ref) => null,

@@ -18,7 +18,7 @@ class FeedList extends StatefulHookConsumerWidget {
 /**
  * AutomaticKeepAliveClientMixin<FeedScreen> 을 mixin 했기 때문에,
  * 다른 탭바로 이동했다가 다시 돌아와도, 모든 피드 카드를 다시 그리지 않는다
- * (_getFeedList()를 다시 수행하지 않는다 => Firebase에 다시 데이터를 가져오지 않는다)
+ * 즉, _getFeedList()를 다시 수행하지 않는다 => Firebase에 다시 데이터를 가져오지 않는다
  * -> 그러면, 부하가 줄어드는 대신 데이터 갱신이 되지 않으므로, 수동적인 데이터 갱신 로직이 필요하다
  */
 class _FeedListState extends ConsumerState<FeedList> with AutomaticKeepAliveClientMixin<FeedList> {
@@ -58,7 +58,7 @@ class _FeedListState extends ConsumerState<FeedList> with AutomaticKeepAliveClie
       // 현재까지 조회한 피드 목록 중 가장 마지막 피드 모델
       FeedModel lastFeedModel = feedState.feedList.last;
 
-      feedController.getFeedList(feedId: lastFeedModel.feedId);
+      feedController.getFeedList(feedId: lastFeedModel.feedId); // 피드 n개 추가 로드
     }
   }
 
@@ -76,7 +76,7 @@ class _FeedListState extends ConsumerState<FeedList> with AutomaticKeepAliveClie
   void _getFeedList() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-        await feedController.getFeedList();
+        await feedController.getFeedList(); // 최신 피드 n개 로드
       } on CustomException catch (e) {
         MessageDialog(e.toString());
       }

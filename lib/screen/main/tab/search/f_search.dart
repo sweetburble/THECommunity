@@ -52,8 +52,7 @@ class _SearchFragmentState extends ConsumerState<SearchFragment> {
             onChanged: (value) {
               debounce.run(() async {
                 if (value.trim().isNotEmpty) {
-                  await ref
-                      .read(searchControllerProvider.notifier)
+                  await ref.read(searchControllerProvider.notifier)
                       .searchUser(keyword: value);
                 } else {
                   _clearSearchState();
@@ -81,7 +80,8 @@ class _SearchFragmentState extends ConsumerState<SearchFragment> {
                         ],
                       ),
                     );
-                  }),
+                  },
+              ),
             ),
           ),
         ],

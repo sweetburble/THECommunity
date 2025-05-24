@@ -14,14 +14,14 @@ class SearchController extends Notifier<SearchState> {
   }
 
   /**
-   * 한 번 검색했다가, 키워드를 다 지우면 검색 결과도 지워지도록 하기
+   * 한 번 검색했다가 키워드를 다 지우면 -> 검색 결과도 전부 지워진다
    */
   void clear() {
     state = state.copyWith(userModelList: []);
   }
 
   /**
-   * 유저 검색 -> SearchRepository 호출
+   * 유저 검색 로직 -> SearchRepository 호출
    */
   Future<void> searchUser({
     required String keyword,

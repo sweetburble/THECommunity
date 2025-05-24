@@ -64,7 +64,7 @@ class ChatRepository {
         return await _createChatRoom(userModelList: userModelList);
       }
 
-      /// 있다면 기존 chatRoomModel을 만들어서 반환한다
+      /// 있다면, 기존 데이터로 ChatRoomModel을 만들어서 반환한다
       return ChatRoomModel.fromMap(
         map: querySnapshot.docs.first.data(),
         userModelList: userModelList,
@@ -101,7 +101,7 @@ class ChatRepository {
               .doc(userId)
               .collection('chatting_rooms')
               .doc(chatRoomDocRef.id);
-          // -> chatting_rooms 컬렉션(= 그 유저가 참여한 모든 채팅방)에 이 채팅방 문서를 만든다
+          // -> chatting_rooms 컬렉션(= 그 유저가 참여한 모든 채팅방 폴더)에 이 채팅방 문서를 만든다
           transaction.set(usersChatRoomDocRef, chatRoomModel.toMap());
         }
       });
@@ -292,7 +292,7 @@ class ChatRepository {
   }
 
   /**
-   * 채팅방 나가기 로직
+   * 1대1 채팅방 나가기 로직
    */
   Future<void> exitChatRoom({
     required ChatRoomModel chatRoomModel,

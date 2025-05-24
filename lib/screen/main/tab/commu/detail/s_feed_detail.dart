@@ -85,8 +85,8 @@ class _FeedDetailScreenState extends ConsumerState<FeedDetailScreen> {
     bool isEnabled = commentState.commentStatus != CommentStatus.submitting;
 
     return PopScope(
-      // 댓글 작성 중 다른 곳을 클릭하면 키보드가 내려간다
       child: GestureDetector(
+        // 댓글 작성 중 다른 곳을 클릭하면 키보드가 내려간다
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           body: SafeArea(
@@ -201,36 +201,39 @@ class _ImagePager extends StatelessWidget {
     return SizedBox(
       height: context.deviceWidth,
       width: context.deviceWidth,
-      child: Stack(
-        children: [
-          PageView(
-            controller: pageController,
-            children: feedModel.imageUrls
-                .map((url) => Hero(
-                      tag: '${feedModel.feedId}_$url',
-                      child: CachedNetworkImage(
-                        imageUrl: url,
-                        fit: BoxFit.fill,
-                      ),
-                    ))
-                .toList(),
-          ),
-          if (feedModel.imageUrls.length > 1)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SmoothPageIndicator(
-                  controller: pageController, // PageController
-                  count: feedModel.imageUrls.length,
-                  effect: const JumpingDotEffect(
-                    verticalOffset: 10,
-                    dotColor: Colors.white54,
-                    activeDotColor: Colors.black45,
-                  ), // your preferred effect
-                  onDotClicked: (index) {}),
-            )
-        ],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          children: [
+            PageView(
+              controller: pageController,
+              children: feedModel.imageUrls
+                  .map((url) => Hero(
+                        tag: '${feedModel.feedId}_$url',
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          fit: BoxFit.fill,
+                        ),
+                      ))
+                  .toList(),
+            ),
+            if (feedModel.imageUrls.length > 1)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SmoothPageIndicator(
+                    controller: pageController, // PageController
+                    count: feedModel.imageUrls.length,
+                    effect: const JumpingDotEffect(
+                      verticalOffset: 10,
+                      dotColor: Colors.white54,
+                      activeDotColor: Colors.black45,
+                    ), // your preferred effect
+                    onDotClicked: (index) {}),
+              )
+          ],
+        ),
       ),
-    );
+    ).p(10);
   }
 }
 
@@ -269,14 +272,11 @@ class _AppBar extends ConsumerWidget {
                     builder: (context) {
                       return Dialog(
                         child: TextButton(
-                          child: '삭제'
-                              .text.color(Colors.red)
-                              .makeWithDefaultFont(),
+                          child: '삭제'.text.color(Colors.red).makeWithDefaultFont(),
                           onPressed: () async {
                             try {
                               // 피드 삭제 로직
-                              await ref
-                                  .read(feedControllerProvider.notifier)
+                              await ref.read(feedControllerProvider.notifier)
                                   .deleteFeed(feedModel: feedModel);
 
                               // likeState에도 반영
@@ -300,10 +300,8 @@ class _AppBar extends ConsumerWidget {
               },
               icon: const Icon(Icons.more_vert, color: Colors.white)),
         ],
-        title: feedModel.title.text.white
-            .textStyle(defaultFontStyle())
-            .size(24)
-            .makeCentered(),
+        title: feedModel.title.text.white.textStyle(defaultFontStyle())
+            .size(24).makeCentered(),
       ),
     );
   }

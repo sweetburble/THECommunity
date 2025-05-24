@@ -44,7 +44,7 @@ class FeedController extends Notifier<FeedState> {
   }
 
   /**
-   * (페이징을 적용한) 피드 조회 -> feed_repository 호출
+   * (페이징을 적용한) 피드 조회
    */
   Future<void> getFeedList({
     String? feedId,
@@ -74,7 +74,7 @@ class FeedController extends Notifier<FeedState> {
         feedList: newFeedList,
         feedStatus: FeedStatus.success,
         hasNext: feedList.length == feedLength,
-        // 마지막으로 조회한 피드의 개수가 feedLength개 보다 적다면, 남은 피드은 없다는 것!
+        // 마지막으로 조회한 피드의 개수가 feedLength개 보다 적다면, 남은 피드는 없다는 것!
       );
     } on CustomException catch (_) {
       state = state.copyWith(feedStatus: FeedStatus.error);
@@ -96,13 +96,12 @@ class FeedController extends Notifier<FeedState> {
       // StreamProvider<User>를 등록했기 때문에, 여기에서 User 정보를 얻어올 수 있다
       String myUid = ref.read(authStateProvider).value!.uid;
 
-      FeedModel feedModel = await ref
-          .read(feedRepositoryProvider)
+      FeedModel feedModel = await ref.read(feedRepositoryProvider)
           .uploadFeed(files: files, title: title, content: content, myUid: myUid);
 
       state = state.copyWith(
         feedStatus: FeedStatus.success,
-        feedList: [feedModel, ...state.feedList],
+        feedList: [feedModel, ...state.feedList], // 리스트 가장 앞에 추가
       );
     } on CustomException catch (_) {
       state = state.copyWith(feedStatus: FeedStatus.error);
@@ -131,7 +130,7 @@ class FeedController extends Notifier<FeedState> {
             userLikes: myUserModel.feedLikeList,
           );
 
-      // newFeedModel (좋아요를 누른 피드 모델) -> 새로운 feedList를 만든다
+      // newFeedModel (좋아요를 누른 피드 모델로) -> 새로운 feedList를 만든다
       List<FeedModel> newFeedList = state.feedList.map((feed) {
         return feed.feedId == feedId ? newFeedModel : feed;
       }).toList();
@@ -181,7 +180,6 @@ class FeedController extends Notifier<FeedState> {
   }
 }
 
-final feedControllerProvider =
-    NotifierProvider<FeedController, FeedState>(() {
+final feedControllerProvider = NotifierProvider<FeedController, FeedState>(() {
   return FeedController();
 });

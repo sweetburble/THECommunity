@@ -56,7 +56,8 @@ class FriendRepository {
   }
 
   /**
-   * friend_controller가 관리하는 Map<String, UserModel>가 사용할 맞팔 목록을 firebase에서 찾아서 Map 형태로 반환
+   * friend_controller가 관리하는 Map<String, UserModel>가 사용하기 위해,
+   * 맞팔 목록을 firebase에서 찾아서 Map 형태로 반환
    */
   Future<Map<String, UserModel>> getFriendMap() async {
     try {

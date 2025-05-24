@@ -15,7 +15,7 @@ class CommentController extends Notifier<CommentState> {
   }
 
   /**
-   * 피드의 댓글 리스트를 조회하는 함수 -> CommentRepository 호출
+   * 어떤 피드에 작성된 모든 댓글들을 조회하는 함수
    */
   Future<void> getCommentList({
     required String feedId,
@@ -23,8 +23,7 @@ class CommentController extends Notifier<CommentState> {
     state = state.copyWith(commentStatus: CommentStatus.fetching);
 
     try {
-      List<CommentModel> commentList = await ref
-          .read(commentRepositoryProvider)
+      List<CommentModel> commentList = await ref.read(commentRepositoryProvider)
           .getCommentList(feedId: feedId);
 
       state = state.copyWith(
@@ -38,7 +37,7 @@ class CommentController extends Notifier<CommentState> {
   }
 
   /**
-   * "내가" 댓글 작성
+   * "내가" 어떤 피드에 댓글 작성
    */
   Future<void> uploadComment({
     required String feedId,
