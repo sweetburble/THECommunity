@@ -115,6 +115,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.0 # mockito 대신 사용 (null-safety 및 간결한 API 지원)
+  firebase_auth_mocks: ^0.13.0
+  fake_cloud_firestore: ^2.5.2
+  firebase_storage_mocks: ^0.6.1
 
   # 아래의 "flutter_lints" 패키지에는 우수한 코딩 관행을 장려하기 위한 권장 린트 세트가 포함되어 있습니다.
   # 패키지에서 제공하는 린트 세트는 패키지의 루트에 있는 'analysis_options.yaml' 파일에서 활성화됩니다.
