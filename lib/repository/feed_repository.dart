@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:THECommu/ai/gemini_repository.dart';
 import 'package:THECommu/common/exceptions/custom_exception.dart';
 import 'package:THECommu/common/util/logger.dart';
 import 'package:THECommu/data/models/feed_model.dart';
@@ -9,9 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
-
-import 'package:THECommu/ai/gpt_repository.dart';
-import 'package:THECommu/ai/gemini_repository.dart';
 
 /**
  * 이미지 파일은 가장 먼저 Firebase Storage에 저장한 다음, 그곳에서 제공하는 접근 경로를 FireStore에 저장하는 방식이다
@@ -40,7 +38,8 @@ class FeedRepository {
   }) async {
     try {
       // snapshot을 생성하기 위한 query 생성
-      Query<Map<String, dynamic>> query = firebaseFirestore.collection('feeds')
+      Query<Map<String, dynamic>> query = firebaseFirestore
+          .collection('feeds')
           .orderBy('createAt', descending: true)
           .limit(feedLength); // 페이징 적용
 
@@ -72,7 +71,6 @@ class FeedRepository {
         data['writer'] = userModel;
         return FeedModel.fromMap(data);
       }).toList());
-
     } on FirebaseException catch (e) {
       // 1. 파이어베이스 관련 예외
       throw CustomException(code: e.code, message: e.message!);
@@ -97,7 +95,8 @@ class FeedRepository {
           firebaseFirestore.collection('users').doc(feedModel.uid);
 
       // 이 피드를 좋아요한 유저들의 uid 리스트
-      List<String> likes = await feedDocRef.get()
+      List<String> likes = await feedDocRef
+          .get()
           .then((value) => List<String>.from(value.data()!['likes']));
 
       for (var uid in likes) {
@@ -148,7 +147,8 @@ class FeedRepository {
 
     if (currentUser == null) {
       logger.w("경고: 사용자가 로그인되어 있지 않습니다. 피드 업로드를 진행할 수 없습니다.");
-      throw CustomException(code: "UNAUTHENTICATED", message: "피드를 업로드하려면 로그인이 필요합니다.");
+      throw CustomException(
+          code: "UNAUTHENTICATED", message: "피드를 업로드하려면 로그인이 필요합니다.");
     } else {
       logger.d("현재 로그인된 사용자의 uid : ${currentUser.uid}, 전달받은 uid: $myUid");
     }
@@ -156,7 +156,8 @@ class FeedRepository {
     List<String> imageUrls = [];
 
     // final openaiApiKey = remoteConfig.getString('openai_api_key'); // Firebase 콘솔에 설정한 키
-    final geminiApiKey = remoteConfig.getString('gemini_api_key'); // Firebase 콘솔에 설정한 키
+    final geminiApiKey =
+        remoteConfig.getString('gemini_api_key'); // Firebase 콘솔에 설정한 키
 
     if (geminiApiKey.isEmpty) {
       // API 키를 가져오지 못한 경우의 처리
@@ -180,21 +181,25 @@ class FeedRepository {
           firebaseFirestore.collection('users').doc(myUid);
 
       // storage(그 중 feeds 폴더)에 참조할 수 있는 객체 선언
-      Reference feedStorageRef = firebaseStorage.ref().child('feeds').child(feedId);
+      Reference feedStorageRef =
+          firebaseStorage.ref().child('feeds').child(feedId);
 
       // List<Future<String>> -> List<String>으로 바꾸기 위해 기다린다는 의미의 함수
       imageUrls = await Future.wait(files.map((item) async {
         String imageId = Uuid().v1();
-        TaskSnapshot taskSnapshot = await feedStorageRef.child(imageId).putFile(File(item));
+        TaskSnapshot taskSnapshot =
+            await feedStorageRef.child(imageId).putFile(File(item));
         return await taskSnapshot.ref.getDownloadURL();
       }).toList()); // 스토리지에 저장된 이미지에 접근할 수 있는 경로들을 리스트(imageUrls)에 저장한다
 
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot = await userDocRef.get();
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await userDocRef.get();
       // userDocRef에서 userSnapshot을 받고, map -> UserModel로 변환해서 저장한다
       UserModel userModel = UserModel.fromMap(userSnapshot.data()!);
 
       // GPTRepository gptRepository = GPTRepository(apiKey: openaiApiKey);
-      GeminiRepository geminiRepository = GeminiRepository(apiKey: geminiApiKey);
+      GeminiRepository geminiRepository =
+          GeminiRepository(apiKey: geminiApiKey);
 
       String summary = "";
       // await gptRepository.requestSummary(content.trim()).then((value) {
@@ -250,8 +255,10 @@ class FeedRepository {
     required List<String> userLikes, // 본인이 좋아요한 피드 리스트
   }) async {
     try {
-      DocumentReference<Map<String, dynamic>> userDocRef = firebaseFirestore.collection('users').doc(myUid);
-      DocumentReference<Map<String, dynamic>> feedDocRef = firebaseFirestore.collection('feeds').doc(feedId);
+      DocumentReference<Map<String, dynamic>> userDocRef =
+          firebaseFirestore.collection('users').doc(myUid);
+      DocumentReference<Map<String, dynamic>> feedDocRef =
+          firebaseFirestore.collection('feeds').doc(feedId);
 
       /// 1. 피드를 좋아하는 유저 리스트(likes)에 본인 uid가 포함되었는지 확인
       // -> 포함되어 있다면, 좋아요 취소 -> 피드의 likes 필드에서 uid 삭제, 피드의 likeCount 1 감소
@@ -291,7 +298,6 @@ class FeedRepository {
       feedMapData['writer'] = userModel;
 
       return FeedModel.fromMap(feedMapData);
-
     } on FirebaseException catch (e) {
       // 1. 파이어베이스 관련 예외
       throw CustomException(code: e.code, message: e.message!);
@@ -308,19 +314,21 @@ class FeedRepository {
     required String feedId, // feedId로 firebase 컬렉션에서 조회
   }) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore.collection('feeds').doc(feedId).get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await firebaseFirestore.collection('feeds').doc(feedId).get();
 
       Map<String, dynamic> feedModelData = snapshot.data()!;
 
       // feed_model의 writer 멤버 변수는 UserModel 객체이고,
       // fireStore에는 userDocRef(userSnapshot)으로 저장되어 있으므로 따로 변환해야 함
-      DocumentReference<Map<String, dynamic>> writerDocRef = feedModelData['writer'];
-      DocumentSnapshot<Map<String, dynamic>> writerSnapshot = await writerDocRef.get();
+      DocumentReference<Map<String, dynamic>> writerDocRef =
+          feedModelData['writer'];
+      DocumentSnapshot<Map<String, dynamic>> writerSnapshot =
+          await writerDocRef.get();
       UserModel userModel = UserModel.fromMap(writerSnapshot.data()!);
 
       feedModelData['writer'] = userModel;
       return FeedModel.fromMap(feedModelData);
-
     } on FirebaseException catch (e) {
       // 1. 파이어베이스 관련 예외
       throw CustomException(code: e.code, message: e.message!);

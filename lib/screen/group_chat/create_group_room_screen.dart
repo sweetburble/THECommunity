@@ -19,7 +19,8 @@ class CreateGroupRoomScreen extends StatefulHookConsumerWidget {
   const CreateGroupRoomScreen({super.key});
 
   @override
-  ConsumerState<CreateGroupRoomScreen> createState() => _CreateGroupRoomScreenState();
+  ConsumerState<CreateGroupRoomScreen> createState() =>
+      _CreateGroupRoomScreenState();
 }
 
 class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
@@ -110,13 +111,15 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
                 final friendUserModel = data[index]; // 친구들의 연락처 데이터 객체
 
                 // 선택이 안된 상태면 -1 / 선택이 된 상태면 그 위치(인덱스)
-                final selectedFriendIndex = selectedFriendList.indexOf(friendUserModel.uid);
+                final selectedFriendIndex =
+                    selectedFriendList.indexOf(friendUserModel.uid);
 
                 return GestureDetector(
                   onTap: () {
                     setState(() {
                       _selectFriend(
-                          userId: friendUserModel.uid, index: selectedFriendIndex);
+                          userId: friendUserModel.uid,
+                          index: selectedFriendIndex);
                     });
                   },
                   child: ListTile(
@@ -126,7 +129,8 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
                           backgroundImage: friendUserModel.profileImage == null
                               ? ExtendedAssetImageProvider(
                                   'assets/image/profile.png') as ImageProvider
-                              : ExtendedNetworkImageProvider(friendUserModel.profileImage!),
+                              : ExtendedNetworkImageProvider(
+                                  friendUserModel.profileImage!),
                           radius: 20,
                         ),
 
@@ -166,7 +170,7 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
   /**
    * "친구 목록"에서 그룹 채팅방에 초대할 친구를 선택/해제하여 -> 초대목록에 추가/삭제하는 로직
    */
-  _selectFriend({
+  void _selectFriend({
     required String userId,
     required int index, // -1이면 초대 목록 추가, 그 외는 해당되는 인덱스의 요소 삭제
   }) {
@@ -213,7 +217,8 @@ class _CreateGroupRoomScreenState extends ConsumerState<CreateGroupRoomScreen> {
         onPressed: isEnabled
             ? () async {
                 try {
-                  await ref.read(groupChatControllerProvider.notifier)
+                  await ref
+                      .read(groupChatControllerProvider.notifier)
                       .createGroupChatRoom(
                         groupChatRoomName: textEditingController.text,
                         groupChatRoomImage: image,

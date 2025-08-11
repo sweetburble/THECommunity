@@ -1,6 +1,6 @@
 import 'dart:convert'; // JSON 인코딩/디코딩을 위한 라이브러리
-import 'package:http/http.dart' as http; // HTTP 요청을 위한 라이브러리
 
+import 'package:http/http.dart' as http; // HTTP 요청을 위한 라이브러리
 import 'package:logger/logger.dart';
 
 class GeminiRepository {
@@ -41,22 +41,28 @@ class GeminiRepository {
     // Gemini API 요청 본문을 구성합니다.
     // 시스템 프롬프트와 사용자 텍스트를 결합하여 전달합니다.
     final requestBody = {
-      "systemInstruction": {"parts": [{"text": "You are a three-line summary bot that summarizes whatever text I type into, in three lines of sentences. Please number each line, insert a space and print it out. Please write all the answers in Korean."}]},
+      "systemInstruction": {
+        "parts": [
+          {
+            "text":
+                "You are a three-line summary bot that summarizes whatever text I type into, in three lines of sentences. Please number each line, insert a space and print it out. Please write all the answers in Korean."
+          }
+        ]
+      },
       "contents": [
         {
           "role": "user",
           "parts": [
             {
               // 시스템 지침과 실제 요약 요청 텍스트를 함께 전달합니다.
-              "text":
-              "Summarize below Text:\n${text.trim()}"
+              "text": "Summarize below Text:\n${text.trim()}"
             }
           ]
         }
       ],
       // 필요에 따라 생성 관련 설정을 추가할 수 있다.
       "generationConfig": {
-        "thinkingConfig": { "thinkingBudget": 0 },
+        "thinkingConfig": {"thinkingBudget": 0},
         "maxOutputTokens": 1024, // 최대 출력 토큰 수
         // "temperature": 0.7, // 다양성 조절 (0.0 ~ 1.0)
         // "topP": 0.9, // Top-p 샘플링
@@ -78,10 +84,10 @@ class GeminiRepository {
       logger.d("Gemini API Response Status: ${resp.statusCode}");
       logger.d("Gemini API Response Body: ${utf8.decode(resp.bodyBytes)}");
 
-
       if (resp.statusCode == 200) {
         // 요청 성공 시 응답 본문을 JSON으로 디코딩합니다.
-        final jsonData = jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
+        final jsonData =
+            jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
 
         // Gemini API 응답 구조에 따라 요약된 텍스트를 추출합니다.
         // 일반적인 성공 응답: jsonData['candidates'][0]['content']['parts'][0]['text']
@@ -91,16 +97,20 @@ class GeminiRepository {
             jsonData['candidates'][0].containsKey('content') &&
             jsonData['candidates'][0]['content'].containsKey('parts') &&
             jsonData['candidates'][0]['content']['parts'] is List &&
-            (jsonData['candidates'][0]['content']['parts'] as List).isNotEmpty &&
-            jsonData['candidates'][0]['content']['parts'][0].containsKey('text')) {
-          return jsonData['candidates'][0]['content']['parts'][0]['text'] as String;
+            (jsonData['candidates'][0]['content']['parts'] as List)
+                .isNotEmpty &&
+            jsonData['candidates'][0]['content']['parts'][0]
+                .containsKey('text')) {
+          return jsonData['candidates'][0]['content']['parts'][0]['text']
+              as String;
         } else {
           logger.e("Gemini API 응답 형식이 예상과 다릅니다: ${jsonData.toString()}");
           return "피드 요약에 실패했습니다. (응답 형식 오류)";
         }
       } else {
         // API 요청 실패 시 오류 메시지를 처리합니다.
-        final errorData = jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
+        final errorData =
+            jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
         String errorMessage = "피드 요약에 실패했습니다. (상태 코드: ${resp.statusCode})";
         if (errorData.containsKey('error') && errorData['error'] is Map) {
           final errorDetails = errorData['error'] as Map<String, dynamic>;
@@ -108,7 +118,8 @@ class GeminiRepository {
             errorMessage += " 원인: ${errorDetails['message']}";
           }
         }
-        logger.e("Gemini API Error: $errorMessage \nResponse: ${errorData.toString()}");
+        logger.e(
+            "Gemini API Error: $errorMessage \nResponse: ${errorData.toString()}");
         return errorMessage;
       }
     } catch (e) {
@@ -141,31 +152,4 @@ class GeminiRepository {
     // 문장의 개수를 반환합니다.
     return sentences.length;
   }
-}
-
-/**
- * --- 테스트를 위한 간단한 main 함수 (실제 앱에서는 사용하지 않음) ---
- */
-void main() async {
-
-  final geminiRepo = GeminiRepository(apiKey: "test_gemini_key");
-  final testText1 = "이것은 테스트 문장입니다. 두 번째 문장이 이어집니다. 그리고 세 번째 문장으로 마무리합니다. 네 번째 문장도 있습니다.";
-  final testText2 = "짧은 글입니다.";
-  final testText3 = "This is a sample text for summarization. It has several sentences to check the functionality. The goal is to get a three-line summary. Let's see how it works. This is the fifth sentence. And the sixth one.";
-
-
-  print("\n--- 테스트 1 (4문장 이상) ---");
-  String summary1 = await geminiRepo.requestSummary(testText1);
-  print("원본: $testText1");
-  print("요약 결과:\n$summary1");
-
-  print("\n--- 테스트 2 (3문장 이하) ---");
-  String summary2 = await geminiRepo.requestSummary(testText2);
-  print("원본: $testText2");
-  print("요약 결과:\n$summary2");
-
-  print("\n--- 테스트 3 (영문 텍스트) ---");
-  String summary3 = await geminiRepo.requestSummary(testText3);
-  print("원본: $testText3");
-  print("요약 결과:\n$summary3");
 }
